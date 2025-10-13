@@ -1,0 +1,221 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Inferior Mind',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Inferior Mind'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Color> _COLOURS = [Colors.red, Colors.blue, Colors.yellow, Colors.green];
+
+  // CONSTANTS
+  static const int _MAXATTEMPTS = 3;
+
+  // BUTTONS RELATED
+  List<int> _counters = List.filled(4, 0);
+  List<Color> _currentColour = List.filled(4, Colors.grey);
+  List<Color> _sequence = [];
+
+  // TEXT
+  List<String> _guessesText = List.filled(4, "");
+  String _statusText = "";
+  String _attemptsText = "Tentativi Rimasti: ";
+
+  // FLAGS
+  bool _gameOverFlag = false;
+  bool _vittoryFlag = false;
+
+  int _attempts = _MAXATTEMPTS;
+
+  @override
+  void initState() {
+    super.initState();
+    _sequence = _generateSequence();
+  }
+
+  List<Color>  _generateSequence() {
+    List<Color> newSequence = [];
+    for (var i = 0; i < _COLOURS.length; i++) {
+      newSequence.add(_COLOURS[Random().nextInt(_COLOURS.length)]);
+    }
+    return newSequence;
+  }
+
+  void _updateButton(int index) {
+    setState(() {
+      if (_counters[index] > _COLOURS.length - 1) {
+        _counters[index] = 0;
+      }
+      _currentColour[index] = _COLOURS[_counters[index]];
+      _counters[index]++;
+    });
+  }
+
+  void _checkGameOver() {
+      _attempts--;
+
+      for (int i = 0; i < _currentColour.length; i++) {
+          if (_currentColour[i].toString() == _sequence[i].toString()) {
+            _guessesText[i] = "INDOVINATO";
+          } else {
+            _guessesText[i] = "SBAGLIATO";
+          }
+      }
+      if (_currentColour.toString() == _sequence.toString()) {
+        _vittoryFlag = true;
+      }
+      if (_attempts == 0) {
+        _gameOverFlag = true;
+      }
+  }
+
+  void _updateStatusText() {
+    setState(() {
+      if (_vittoryFlag) {
+        _statusText = "Hai Vinto!";
+      }
+      else if (_gameOverFlag) {
+        _statusText = "Hai Perso!";
+      } else {
+        _statusText = "Combinazione Errata!";
+      }
+    });
+  }
+
+  void _checkGame() {
+    _checkGameOver();
+    _updateStatusText();
+    if (_vittoryFlag || _gameOverFlag) {
+      Future.delayed(Duration(seconds: 2), () {
+        _resetGame();
+      });
+    }
+  }
+
+  void _resetGame() {
+    setState(() {
+      // RESET BUTTONS
+      _counters = List.filled(4, 0);
+      _currentColour = List.filled(4, Colors.grey);
+
+      // RESET TEXT
+      _guessesText = List.filled(4, "");
+      _statusText = "";
+
+      // RESET FLAGS
+      _vittoryFlag = false;
+      _gameOverFlag = false;
+
+      _attempts = _MAXATTEMPTS;
+      _sequence = _generateSequence();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        shadowColor: Theme.of(context).shadowColor,
+        elevation: 4,
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FloatingActionButton(
+                      onPressed: () {
+                        _updateButton(0);
+                      },
+                      backgroundColor: _currentColour[0],
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {
+                        _updateButton(1);
+                      },
+                      backgroundColor: _currentColour[1],
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {
+                        _updateButton(2);
+                      },
+                      backgroundColor: _currentColour[2],
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {
+                        _updateButton(3);
+                      },
+                      backgroundColor: _currentColour[3],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                      Text(_guessesText[0]),
+                      Text(_guessesText[1]),
+                      Text(_guessesText[2]),
+                      Text(_guessesText[3]),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Text(
+              _statusText,
+              style: (TextStyle(fontSize:24)),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              _attemptsText + _attempts.toString(),
+              style: (TextStyle(fontSize:24)),
+            ),
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (!_vittoryFlag && !_gameOverFlag) {
+            _checkGame();
+          }
+        },
+        child: Icon(Icons.add_task),
+      ),
+    );
+  }
+}
