@@ -1,16 +1,10 @@
 # inferiormind
+Implementazione in Dart col framework Flutter di una versione semplificata del gioco "Master Mind". 
+Il giocatore dovrà indovinare una combinazione casualmente generata ogni partita pigiando i tasti presenti sullo schermo.
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Scelte
+- Massimo tre tentativi a partita per fornire una sfida al giocatore;
+- Presenza di un feedback al di sotto dei tasti che indica se la combinazione scelta sia giusta oppure errata;
+- Il buttone in basso a destra presenta un'icona per evidenziarne l'utilizzo all'utente;
+- Una volta che il gioco giunge al termine il buttone di "verifica" viene bloccato per due secondi (utilizzando un future e controllando due flags) per dar all'utente il tempo di elaborare il risultato della partita;
+- Testo di feedback che appare in alto a fine partita per indicare la vittoria o la sconfitta.
