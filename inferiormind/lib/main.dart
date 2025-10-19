@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Inferior Mind',
       theme: ThemeData(
-          brightness: Brightness.dark,
+        brightness: Brightness.dark,
       ),
       home: const MyHomePage(title: 'Inferior Mind'),
     );
@@ -36,14 +36,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // BUTTONS RELATED
   List<int> _counters = List.filled(4, 0);
-  List<Color> _currentColour = List.filled(4, Colors.grey);
+  List<Color> _currentColour = List.filled(4, Colors.blueGrey.shade900);
   List<Color> _sequence = [];
 
   // TEXT
+  final String _attemptsText = "Tentativi Rimasti: ";
+  final Color defaultTextColour = Colors.grey.shade600;
   List<String> _guessesText = List.filled(4, "");
   String _statusText = "";
-  final String _attemptsText = "Tentativi Rimasti: ";
-  final Color defaultColour = Colors.grey.shade600;
 
   // FLAGS
   bool _gameOverFlag = false;
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       // RESET BUTTONS
       _counters = List.filled(4, 0);
-      _currentColour = List.filled(4, Colors.grey);
+      _currentColour = List.filled(4, Colors.blueGrey.shade900);
 
       // RESET TEXT
       _guessesText = List.filled(4, "");
@@ -137,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: (TextStyle(color: defaultColour)),),
+        title: Text(widget.title, style: (TextStyle(color: defaultTextColour)),),
         centerTitle: true,
         shadowColor: Theme.of(context).shadowColor,
         elevation: 4,
@@ -180,10 +180,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(_guessesText[0], style: (TextStyle(color: defaultColour)),),
-                    Text(_guessesText[1], style: (TextStyle(color: defaultColour)),),
-                    Text(_guessesText[2], style: (TextStyle(color: defaultColour)),),
-                    Text(_guessesText[3], style: (TextStyle(color: defaultColour)),),
+                    Text(_guessesText[0], style: (TextStyle(color: defaultTextColour)),),
+                    Text(_guessesText[1], style: (TextStyle(color: defaultTextColour)),),
+                    Text(_guessesText[2], style: (TextStyle(color: defaultTextColour)),),
+                    Text(_guessesText[3], style: (TextStyle(color: defaultTextColour)),),
                   ],
                 )
               ],
@@ -193,14 +193,14 @@ class _MyHomePageState extends State<MyHomePage> {
             alignment: Alignment.topCenter,
             child: Text(
               _statusText,
-              style: (TextStyle(fontSize:24, color: defaultColour)),
+              style: (TextStyle(fontSize:24, color: defaultTextColour)),
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Text(
               _attemptsText + _attempts.toString(),
-              style: (TextStyle(fontSize:24, color: defaultColour)),
+              style: (TextStyle(fontSize:24, color: defaultTextColour)),
             ),
           )
         ],
