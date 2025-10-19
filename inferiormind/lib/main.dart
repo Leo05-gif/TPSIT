@@ -43,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> _guessesText = List.filled(4, "");
   String _statusText = "";
   final String _attemptsText = "Tentativi Rimasti: ";
+  final Color defaultColour = Colors.grey.shade600;
 
   // FLAGS
   bool _gameOverFlag = false;
@@ -79,9 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     for (int i = 0; i < _currentColour.length; i++) {
       if (_currentColour[i].toString() == _sequence[i].toString()) {
-        _guessesText[i] = "INDOVINATO";
+        _guessesText[i] = "Corretto";
       } else {
-        _guessesText[i] = "SBAGLIATO";
+        _guessesText[i] = "Sbagliato";
       }
     }
     if (_currentColour.toString() == _sequence.toString()) {
@@ -136,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title, style: (TextStyle(color: defaultColour)),),
         centerTitle: true,
         shadowColor: Theme.of(context).shadowColor,
         elevation: 4,
@@ -179,10 +180,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(_guessesText[0]),
-                    Text(_guessesText[1]),
-                    Text(_guessesText[2]),
-                    Text(_guessesText[3]),
+                    Text(_guessesText[0], style: (TextStyle(color: defaultColour)),),
+                    Text(_guessesText[1], style: (TextStyle(color: defaultColour)),),
+                    Text(_guessesText[2], style: (TextStyle(color: defaultColour)),),
+                    Text(_guessesText[3], style: (TextStyle(color: defaultColour)),),
                   ],
                 )
               ],
@@ -192,14 +193,14 @@ class _MyHomePageState extends State<MyHomePage> {
             alignment: Alignment.topCenter,
             child: Text(
               _statusText,
-              style: (TextStyle(fontSize:24)),
+              style: (TextStyle(fontSize:24, color: defaultColour)),
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Text(
               _attemptsText + _attempts.toString(),
-              style: (TextStyle(fontSize:24)),
+              style: (TextStyle(fontSize:24, color: defaultColour)),
             ),
           )
         ],
