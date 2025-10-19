@@ -31,7 +31,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Color> _colours = [Colors.red, Colors.blue, Colors.yellow, Colors.green];
+  final List<Color> _colours = [Colors.red.shade900, Colors.lightBlue.shade900, Colors.amber.shade900, Colors.lightGreen.shade900];
   static int _maxAttempts = 3;
 
   // BUTTONS RELATED
