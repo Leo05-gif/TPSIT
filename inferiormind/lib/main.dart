@@ -14,8 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Inferior Mind',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
+          brightness: Brightness.dark,
       ),
       home: const MyHomePage(title: 'Inferior Mind'),
     );
@@ -100,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       else if (_gameOverFlag) {
         _statusText = "Hai Perso!";
-      } 
+      }
     });
   }
 
@@ -138,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        centerTitle: true,
         shadowColor: Theme.of(context).shadowColor,
         elevation: 4,
       ),
