@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Inferior Mind',
+      title: 'INFERIOR MIND',
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
-      home: const MyHomePage(title: 'Inferior Mind'),
+      home: const MyHomePage(title: 'INFERIOR MIND'),
     );
   }
 }
