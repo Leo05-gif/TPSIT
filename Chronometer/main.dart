@@ -17,7 +17,6 @@ class Timer {
 }
 
 main() async {
-  int test;
   Timer timer = Timer();
   timer.secondGenerator(timer.tickGenerator(const Duration(seconds: 1))).listen(
     (data) {
