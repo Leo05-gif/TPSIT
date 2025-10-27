@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +11,7 @@ enum secondStatus { PAUSE, RESUME }
 Stream<int> secondGenerator(Stream<String> tick) async* {
   int value = 0;
   await for (final s in tick) {
-    value++;
+    value += 3661;
     yield value;
   }
 }
@@ -25,18 +23,17 @@ Stream<String> tickGenerator(Duration inverval) async* {
   }
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'INFERIOR MIND',
+      title: 'CHRONOMETER', 
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
-      home: const MyHomePage(title: 'INFERIOR MIND'),
+      home: const MyHomePage(title: 'CHRONOMETER'),
     );
   }
 }
@@ -54,8 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late StreamSubscription<int>? secondSub;
 
-  var _firstStatus = firstStatus.START;
-  var _secondStatus = secondStatus.PAUSE;
+  firstStatus _firstStatus = firstStatus.START;
+  secondStatus _secondStatus = secondStatus.PAUSE;
+
+  String timerString = "";
+  int seconds = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 4,
       ),
       body: Center(
-        child: Text("ciao"),
+        child: Text("${seconds ~/ 3600}:${(seconds ~/ 60) % 60}:${seconds % 60}"),
       ),
       floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -78,7 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 case firstStatus.START:
                   var secondGen = secondGenerator(tickGenerator(Duration(seconds: 1)));
                   secondSub = secondGen.listen((onData) {
-                    print(onData);
+                    setState(() {
+                      seconds = onData;
+                    });
                   });
                   _firstStatus = firstStatus.STOP;
                 case firstStatus.STOP:
