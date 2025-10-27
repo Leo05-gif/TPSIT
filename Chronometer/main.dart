@@ -52,7 +52,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  //var secondGen = secondGenerator(tickGenerator(Duration(seconds: 1)));
   late StreamSubscription<int>? secondSub;
 
   var _firstStatus = firstStatus.START;
@@ -68,11 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 4,
       ),
       body: Center(
+        child: Text("ciao"),
       ),
       floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FloatingActionButton(onPressed: () {
+
               switch (_firstStatus) {
                 case firstStatus.START:
                   var secondGen = secondGenerator(tickGenerator(Duration(seconds: 1)));
@@ -81,22 +82,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
                   _firstStatus = firstStatus.STOP;
                 case firstStatus.STOP:
-                  secondSub?.pause();
+                  secondSub?.cancel();
                   _firstStatus = firstStatus.RESET;
                 case firstStatus.RESET:
-                  secondSub?.cancel();
                   secondSub = null;
                   _firstStatus = firstStatus.START;
               }
+
             }),
             const SizedBox(width: 20),
             FloatingActionButton(onPressed: () {
               switch (_secondStatus) {
                 case secondStatus.PAUSE:
-                  print("pause");
+                  secondSub?.pause();
                   _secondStatus = secondStatus.RESUME;
                 case secondStatus.RESUME:
-                  print("resume");
+                  secondSub?.resume();
                   _secondStatus = secondStatus.PAUSE;
               }
             })
