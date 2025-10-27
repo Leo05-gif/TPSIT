@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CHRONOMETER', 
+      title: 'CHRONOMETER',
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
@@ -49,8 +49,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  late StreamSubscription<int>? secondSub;
-
+  Stream<String> tickGen = tickGenerator(Duration(seconds: 1));
+  StreamController? controller;
+  
   firstStatus _firstStatus = firstStatus.START;
   secondStatus _secondStatus = secondStatus.PAUSE;
 
@@ -76,15 +77,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
               switch (_firstStatus) {
                 case firstStatus.START:
-                  var secondGen = secondGenerator(tickGenerator(Duration(seconds: 1)));
-                  secondSub = secondGen.listen((onData) {
+                  controller = new StreamController();
+                  controller?.addStream(tickGen);
+
+                  controller?.stream.listen((onData) {
                     setState(() {
                       seconds = onData;
                     });
                   });
                   _firstStatus = firstStatus.STOP;
                 case firstStatus.STOP:
-                  secondSub?.cancel();
+                  //controller
                   _firstStatus = firstStatus.RESET;
                 case firstStatus.RESET:
                   secondSub = null;
