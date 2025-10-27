@@ -52,10 +52,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  var secondGen = secondGenerator(tickGenerator(Duration(seconds: 1)));
-  late StreamSubscription<int> secondSub;
+  //var secondGen = secondGenerator(tickGenerator(Duration(seconds: 1)));
+  late StreamSubscription<int>? secondSub;
 
-  var _stateButton = secondStatus.PAUSE;
+  var _firstStatus = firstStatus.START;
+  var _secondStatus = secondStatus.PAUSE;
 
   @override
   Widget build(BuildContext context) {
@@ -72,19 +73,31 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FloatingActionButton(onPressed: () {
-              secondSub = secondGen.listen((v) {
-                print(v);
-              });
+              switch (_firstStatus) {
+                case firstStatus.START:
+                  var secondGen = secondGenerator(tickGenerator(Duration(seconds: 1)));
+                  secondSub = secondGen.listen((onData) {
+                    print(onData);
+                  });
+                  _firstStatus = firstStatus.STOP;
+                case firstStatus.STOP:
+                  secondSub?.pause();
+                  _firstStatus = firstStatus.RESET;
+                case firstStatus.RESET:
+                  secondSub?.cancel();
+                  secondSub = null;
+                  _firstStatus = firstStatus.START;
+              }
             }),
             const SizedBox(width: 20),
             FloatingActionButton(onPressed: () {
-              switch (_stateButton) {
+              switch (_secondStatus) {
                 case secondStatus.PAUSE:
                   print("pause");
-                  _stateButton = secondStatus.RESUME;
+                  _secondStatus = secondStatus.RESUME;
                 case secondStatus.RESUME:
                   print("resume");
-                  _stateButton = secondStatus.PAUSE;
+                  _secondStatus = secondStatus.PAUSE;
               }
             })
           ],
