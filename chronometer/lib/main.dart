@@ -36,12 +36,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  Stream<String> tickGen = Stream<String>.periodic(const Duration(seconds:  1), (_)  => "tick").asBroadcastStream();
-
-  StreamController? controller;
-  Stream<int>? stream = null;
-  late StreamSubscription<int>? subscription;
-
+  //StreamController? controller;
+  final _controller = StreamController<String>.broadcast();
+  Stream<int>? _stream = null;
+  late StreamSubscription<int>? _subscription;
 
   FirstStatus _firstStatus = FirstStatus.START;
   SecondStatus _secondStatus = SecondStatus.PAUSE;
@@ -51,12 +49,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String _timerString = "";
   int _seconds = 0;
+  bool _keepCounting = true;
 
-  Stream<int> _secondGenerator(Stream<String> tick) async* {
+  void startTicker() {
+    Timer.periodic(const Duration(seconds: 1), (_) {
+      if (!_controller.isClosed) {
+        _controller.add("tick");
+      }
+    });
+  }
+
+  Stream<int> _secondsGenerator() async* {
     int value = 0;
-    await for (final s in tick) {
-      value += 3661;
-      yield value;
+    await for (final s in _controller.stream) {
+      if (_keepCounting) {
+        value += 3661;
+        yield value;
+      }
     }
   }
 
@@ -73,6 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
       case IconsStatus.RESUMEICON:
         return Icons.play_arrow;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTicker();
   }
 
   @override
@@ -93,8 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
           FloatingActionButton(onPressed: () {
             switch (_firstStatus) {
               case FirstStatus.START:
-                stream  = _secondGenerator(tickGen);
-                subscription = stream?.listen((onData) {
+                _stream  = _secondsGenerator();
+                _subscription = _stream?.listen((onData) {
                   setState(() {
                     _seconds = onData;
                   });
@@ -106,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 break;
 
               case FirstStatus.STOP:
-                subscription?.pause();
+                _subscription?.pause();
                 _firstStatus = FirstStatus.RESET;
                 setState(() {
                   _firstIcon = IconsStatus.RESETICON;
@@ -114,12 +129,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 break;
 
               case FirstStatus.RESET:
-                subscription?.cancel();
-                stream = null;
+                _subscription?.cancel();
+                _stream = null;
                 _firstStatus = FirstStatus.START;
                 setState(() {
                   _firstIcon = IconsStatus.PLAYICON;
-
                 });
                 break;
             }
@@ -131,19 +145,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
             switch (_secondStatus) {
               case SecondStatus.PAUSE:
-                subscription?.pause();
+                _subscription?.pause();
                 _secondStatus = SecondStatus.RESUME;
                 setState(() {
                   _secondIcon = IconsStatus.RESUMEICON;
                 });
+                _keepCounting = false;
                 break;
 
               case SecondStatus.RESUME:
-                subscription?.resume();
+                _subscription?.resume();
                 _secondStatus = SecondStatus.PAUSE;
                 setState(() {
                   _secondIcon = IconsStatus.PAUSEICON;
                 });
+                _keepCounting = true;
                 break;
             }
           },
