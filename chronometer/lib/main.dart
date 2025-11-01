@@ -52,9 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _keepCounting = true;
 
   void startTicker() {
-    Timer.periodic(const Duration(seconds: 1), (_) {
+    Stream.periodic(const Duration(seconds: 1), (_) => "tick").listen((tick) {
       if (!_controller.isClosed) {
-        _controller.add("tick");
+        _controller.add(tick);
       }
     });
   }
