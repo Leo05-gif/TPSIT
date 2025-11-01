@@ -1,43 +1,117 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 
-class Time {
-  int seconds = 0;
-  int minutes = 0;
-  int hours = 0;
+enum firstStatus { START, STOP, RESET }
+enum secondStatus { PAUSE, RESUME }
+
+void main() {
+  runApp(const MyApp());
 }
 
-class Timer {
-  Time time = Time();
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'CHRONOMETER',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      home: const MyHomePage(title: 'CHRONOMETER'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  Stream<String> tickGen = Stream<String>.periodic(const Duration(seconds:  1), (_)  => "tick").asBroadcastStream();
+
+  StreamController? controller;
+  Stream<int>? stream = null;
+  late StreamSubscription<int>? subscription;
+
+
+  firstStatus _firstStatus = firstStatus.START;
+  secondStatus _secondStatus = secondStatus.PAUSE;
+
+  String timerString = "";
+  int seconds = 0;
 
   Stream<int> secondGenerator(Stream<String> tick) async* {
+    int value = 0;
     await for (final s in tick) {
-      if (time.seconds == 60) {
-        time.minutes++;
-        time.seconds = 0;
-      }
-
-      if (time.minutes == 60) {
-        time.hours++;
-        time.minutes = 0;
-      }
-
-      yield time.seconds++;
+      value += 3661;
+      yield value;
     }
   }
 
-  Stream<String> tickGenerator(Duration inverval) async* {
-    while (true) {
-      await Future.delayed(inverval);
-      yield "tick";
-    }
-  }
-}
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title, style: (TextStyle(color: Colors.red)),),
+        centerTitle: true,
+        shadowColor: Theme.of(context).shadowColor,
+        elevation: 4,
+      ),
+      body: Center(
+        child: Text("${seconds ~/ 3600}:${(seconds ~/ 60) % 60}:${seconds % 60}"),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(onPressed: () {
+            switch (_firstStatus) {
+              case firstStatus.START:
+                stream  = secondGenerator(tickGen);
+                subscription = stream?.listen((onData) {
+                  setState(() {
+                    seconds = onData;
+                  });
+                });
+                _firstStatus = firstStatus.STOP;
+                break;
 
-main() async {
-  Timer timer = Timer();
-  timer.secondGenerator(timer.tickGenerator(const Duration(seconds: 1))).listen(
-    (data) {
-      print(data);
-    },
-  );
+              case firstStatus.STOP:
+                subscription?.pause();
+                _firstStatus = firstStatus.RESET;
+                break;
+
+              case firstStatus.RESET:
+                subscription?.cancel();
+                stream = null;
+                _firstStatus = firstStatus.START;
+                break;
+            }
+
+          }),
+          const SizedBox(width: 20),
+          FloatingActionButton(onPressed: () {
+
+            switch (_secondStatus) {
+              case secondStatus.PAUSE:
+                subscription?.pause();
+                _secondStatus = secondStatus.RESUME;
+                break;
+
+              case secondStatus.RESUME:
+                subscription?.resume();
+                _secondStatus = secondStatus.PAUSE;
+                break;
+            }
+          })
+        ],
+      ),
+    );
+  }
 }
