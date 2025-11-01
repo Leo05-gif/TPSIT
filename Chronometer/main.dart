@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-enum firstStatus { START, STOP, RESET }
-enum secondStatus { PAUSE, RESUME }
+enum FirstStatus { START, STOP, RESET }
+enum SecondStatus { PAUSE, RESUME }
+
+enum  IconsStatus { PLAYICON, STOPICON, RESETICON, PAUSEICON, RESUMEICON }
 
 void main() {
   runApp(const MyApp());
@@ -41,17 +43,35 @@ class _MyHomePageState extends State<MyHomePage> {
   late StreamSubscription<int>? subscription;
 
 
-  firstStatus _firstStatus = firstStatus.START;
-  secondStatus _secondStatus = secondStatus.PAUSE;
+  FirstStatus _firstStatus = FirstStatus.START;
+  SecondStatus _secondStatus = SecondStatus.PAUSE;
+
+  IconsStatus _firstIcon = IconsStatus.PLAYICON;
+  IconsStatus _secondIcon = IconsStatus.PAUSEICON;
 
   String timerString = "";
   int seconds = 0;
 
-  Stream<int> secondGenerator(Stream<String> tick) async* {
+  Stream<int> _secondGenerator(Stream<String> tick) async* {
     int value = 0;
     await for (final s in tick) {
       value += 3661;
       yield value;
+    }
+  }
+
+  IconData _getIcon(IconsStatus icon) {
+    switch (icon) {
+      case IconsStatus.PLAYICON:
+        return Icons.play_arrow;
+      case IconsStatus.STOPICON:
+        return Icons.stop;
+      case IconsStatus.RESETICON:
+        return Icons.refresh;
+      case IconsStatus.PAUSEICON:
+        return Icons.pause;
+      case IconsStatus.RESUMEICON:
+        return Icons.play_arrow;
     }
   }
 
@@ -72,44 +92,62 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           FloatingActionButton(onPressed: () {
             switch (_firstStatus) {
-              case firstStatus.START:
-                stream  = secondGenerator(tickGen);
+              case FirstStatus.START:
+                stream  = _secondGenerator(tickGen);
                 subscription = stream?.listen((onData) {
                   setState(() {
                     seconds = onData;
                   });
                 });
-                _firstStatus = firstStatus.STOP;
+                _firstStatus = FirstStatus.STOP;
+                setState(() {
+                  _firstIcon = IconsStatus.STOPICON;
+                });
                 break;
 
-              case firstStatus.STOP:
+              case FirstStatus.STOP:
                 subscription?.pause();
-                _firstStatus = firstStatus.RESET;
+                _firstStatus = FirstStatus.RESET;
+                setState(() {
+                  _firstIcon = IconsStatus.RESETICON;
+                });
                 break;
 
-              case firstStatus.RESET:
+              case FirstStatus.RESET:
                 subscription?.cancel();
                 stream = null;
-                _firstStatus = firstStatus.START;
+                _firstStatus = FirstStatus.START;
+                setState(() {
+                  _firstIcon = IconsStatus.PLAYICON;
+                });
                 break;
             }
-
-          }),
+          },
+          child: Icon(_getIcon(_firstIcon)),
+          ),
           const SizedBox(width: 20),
           FloatingActionButton(onPressed: () {
 
             switch (_secondStatus) {
-              case secondStatus.PAUSE:
+              case SecondStatus.PAUSE:
                 subscription?.pause();
-                _secondStatus = secondStatus.RESUME;
+                _secondStatus = SecondStatus.RESUME;
+                setState(() {
+                  _secondIcon = IconsStatus.RESUMEICON;
+                });
                 break;
 
-              case secondStatus.RESUME:
+              case SecondStatus.RESUME:
                 subscription?.resume();
-                _secondStatus = secondStatus.PAUSE;
+                _secondStatus = SecondStatus.PAUSE;
+                setState(() {
+                  _secondIcon = IconsStatus.PAUSEICON;
+                });
                 break;
             }
-          })
+          },
+          child: Icon(_getIcon(_secondIcon)),
+          )
         ],
       ),
     );
