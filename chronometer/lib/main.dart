@@ -49,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
   IconsStatus _firstIcon = IconsStatus.PLAYICON;
   IconsStatus _secondIcon = IconsStatus.PAUSEICON;
 
-  String timerString = "";
-  int seconds = 0;
+  String _timerString = "";
+  int _seconds = 0;
 
   Stream<int> _secondGenerator(Stream<String> tick) async* {
     int value = 0;
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 4,
       ),
       body: Center(
-        child: Text("${seconds ~/ 3600}:${(seconds ~/ 60) % 60}:${seconds % 60}"),
+        child: Text("${_seconds ~/ 3600}:${(_seconds ~/ 60) % 60}:${_seconds % 60}", style: TextStyle(fontFamily: "digital-7", fontSize: 126),),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 stream  = _secondGenerator(tickGen);
                 subscription = stream?.listen((onData) {
                   setState(() {
-                    seconds = onData;
+                    _seconds = onData;
                   });
                 });
                 _firstStatus = FirstStatus.STOP;
@@ -119,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 _firstStatus = FirstStatus.START;
                 setState(() {
                   _firstIcon = IconsStatus.PLAYICON;
+
                 });
                 break;
             }
