@@ -1,16 +1,9 @@
 # chronometer
 
-A new Flutter project.
+Implementazione in Dart col framework Flutter di un cronometro.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Scelte
+- void startTicker(): Stream periodico che emette un tick. Ogni volta che emette un evento, esso viene aggiunto alla variabile "_controller" (uno streamController) finché lo streamController non viene chiuso, cioè per tutta la durata del programma.
+- Stream<int> _secondsGenerator() async*: Stream che incrementa i secondi fintantoché l'utente non mette in pausa il cronometro.
+- Presenza di due buttoni per la gestione del cronometro.
+- Font personalizzato per il testo del cronometro.
