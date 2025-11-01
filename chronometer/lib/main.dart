@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   IconsStatus _firstIcon = IconsStatus.PLAYICON;
   IconsStatus _secondIcon = IconsStatus.PAUSEICON;
 
-  String _timerString = "";
+  String _timerString = "0:0:0";
   int _seconds = 0;
   bool _keepCounting = true;
 
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 4,
       ),
       body: Center(
-        child: Text("${_seconds ~/ 3600}:${(_seconds ~/ 60) % 60}:${_seconds % 60}", style: TextStyle(fontFamily: "digital-7", fontSize: 126),),
+        child: Text(_timerString, style: TextStyle(fontFamily: "digital-7", fontSize: 126)),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -112,6 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 _subscription = _stream?.listen((onData) {
                   setState(() {
                     _seconds = onData;
+                    _timerString = "${_seconds ~/ 3600}:${(_seconds ~/ 60) % 60}:${_seconds % 60}";
                   });
                 });
                 _firstStatus = FirstStatus.STOP;
@@ -134,6 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 _firstStatus = FirstStatus.START;
                 setState(() {
                   _firstIcon = IconsStatus.PLAYICON;
+                  _timerString = "0:0:0";
                 });
                 break;
             }
