@@ -3,6 +3,7 @@ import 'dart:io';
 late ServerSocket server;
 
 List<ChatClient> clients = [];
+List<String> usernames = [];
 
 void main() {
   ServerSocket.bind(InternetAddress.anyIPv4, 3000).then((ServerSocket socket) {
@@ -55,8 +56,13 @@ class ChatClient {
     String message = String.fromCharCodes(data).trim();
 
     if (message.startsWith("username")) {
-      var s = message.split(":");
-      _user = s.last;
+      _user = message.split(":").last;
+
+      if (usernames.indexOf(_user) != -1) {
+        _socket.close();
+      }
+
+      usernames.add(_user);
     } else {
       distributeMessage(this, '${_user}: $message');
     }
@@ -70,6 +76,7 @@ class ChatClient {
 
   void finishedHandler() {
     print('${_user} Disconnected');
+    distributeMessage(this, '${_user}: Disconnected');
     removeClient(this);
     _socket.close();
   }
