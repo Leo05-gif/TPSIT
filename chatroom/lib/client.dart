@@ -3,9 +3,14 @@ import 'dart:io';
 late Socket socket;
 
 void main() {
+
+  print("Enter username!");
+  String? name = stdin.readLineSync();
+
   Socket.connect("localhost", 3000).then(
     (Socket sock) {
       socket = sock;
+      sock.write("username:${name}");
       socket.listen(
         dataHandler,
         onError: errorHandler,

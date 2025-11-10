@@ -39,13 +39,10 @@ void distributeMessage(ChatClient client, String message) {
 
 class ChatClient {
   late Socket _socket;
-  String? _address;
-  int? _port;
+  String _user = "";
 
   ChatClient(Socket s) {
     _socket = s;
-    _address = s.remoteAddress.address;
-    _port = s.remotePort;
 
     _socket.listen(
       messageHandler,
@@ -56,17 +53,23 @@ class ChatClient {
 
   void messageHandler(data) {
     String message = String.fromCharCodes(data).trim();
-    distributeMessage(this, '${_address}:${_port} Message: $message');
+
+    if (message.startsWith("username")) {
+      var s = message.split(":");
+      _user = s.last;
+    } else {
+      distributeMessage(this, '${_user}: $message');
+    }
   }
 
   void errorHandler(error) {
-    print('${_address}:${_port} Error: $error');
+    print('${_user}: $error');
     removeClient(this);
     _socket.close();
   }
 
   void finishedHandler() {
-    print('${_address}:${_port} Disconnected');
+    print('${_user} Disconnected');
     removeClient(this);
     _socket.close();
   }
