@@ -95,7 +95,7 @@ class _ChatroomPageState extends State<ChatroomPage> {
                   return ListView.builder(
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
-                      return Text(messages[index], style: style);
+                      return Card(child: Text(messages[index], style: style));
                     },
                   );
                 },
