@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chatroom/data/notifiers.dart';
+import 'package:chatroom/pages/settings_page.dart';
 import 'package:chatroom/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,6 @@ class _ChatroomPageState extends State<ChatroomPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Socket.connect("localhost", 3000).then(
@@ -32,18 +32,22 @@ class _ChatroomPageState extends State<ChatroomPage> {
         );
       },
       onError: (e) {
-        print("Unable to connect: $e");
-        exit(1);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return WelcomePage();
+            },
+          ),
+        );
       },
-    );
-    stdin.listen(
-      (data) => socket.write(String.fromCharCodes(data).trim() + '\n'),
     );
   }
 
   void dataHandler(data) {
-    setState(() {});
-    messages.add(String.fromCharCodes(data).trim());
+    setState(() {
+      messages.add(String.fromCharCodes(data).trim());
+    });
   }
 
   void errorHandler(error, StackTrace trace) {
@@ -52,17 +56,34 @@ class _ChatroomPageState extends State<ChatroomPage> {
 
   void doneHandler() {
     socket.destroy();
-    exit(0);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Connected as ${usernameNotifier.value}'),
+        actions: [
+          CloseButton(),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SettingsPage();
+                  },
+                ),
+              );
+            },
+            icon: Icon(Icons.settings),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(50.0),
         child: Column(
           children: [
-            Text('Connected as ${usernameNotifier.value}'),
             Divider(thickness: 2.0),
             Expanded(
               child: ListView.builder(
