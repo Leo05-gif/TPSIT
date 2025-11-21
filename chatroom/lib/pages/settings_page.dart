@@ -28,27 +28,35 @@ class _SettingsPageState extends State<SettingsPage> {
                 });
               },
             ),
-            DropdownButton(
-              value: menuItem,
-              isExpanded: true,
-              autofocus: false,
-              items: [
-                DropdownMenuItem(
-                  value: KTextStyle.smallText,
-                  child: Text('small'),
+            Stack(
+              children: [
+                Text('Font Size'),
+                DropdownButton(
+                  value: menuItem,
+                  isExpanded: true,
+                  autofocus: false,
+                  items: [
+                    DropdownMenuItem(
+                      value: KTextStyle.smallText,
+                      child: Text('small'),
+                    ),
+                    DropdownMenuItem(
+                      value: KTextStyle.defaultText,
+                      child: Text('default'),
+                    ),
+                    DropdownMenuItem(
+                      value: KTextStyle.bigText,
+                      child: Text('big'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      menuItem = value;
+                      styleTextNotifier.value = value!;
+                    });
+                  },
                 ),
-                DropdownMenuItem(
-                  value: KTextStyle.defaultText,
-                  child: Text('default'),
-                ),
-                DropdownMenuItem(value: KTextStyle.bigText, child: Text('big')),
               ],
-              onChanged: (value) {
-                setState(() {
-                  menuItem = value;
-                  styleTextNotifier.value = value!;
-                });
-              },
             ),
           ],
         ),
