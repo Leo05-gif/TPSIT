@@ -9,6 +9,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  String? menuItem = 'e1';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

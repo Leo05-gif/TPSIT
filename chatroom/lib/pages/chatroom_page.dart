@@ -24,12 +24,7 @@ class _ChatroomPageState extends State<ChatroomPage> {
       (Socket sock) {
         socket = sock;
         sock.write("username:${usernameNotifier.value}");
-        socket.listen(
-          dataHandler,
-          onError: errorHandler,
-          onDone: doneHandler,
-          cancelOnError: false,
-        );
+        socket.listen(dataHandler, onError: errorHandler, cancelOnError: false);
       },
       onError: (e) {
         Navigator.pushReplacement(
@@ -54,17 +49,25 @@ class _ChatroomPageState extends State<ChatroomPage> {
     print(error);
   }
 
-  void doneHandler() {
-    socket.destroy();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Connected as ${usernameNotifier.value}'),
         actions: [
-          CloseButton(),
+          CloseButton(
+            onPressed: () {
+              socket.destroy();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return WelcomePage();
+                  },
+                ),
+              );
+            },
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(
