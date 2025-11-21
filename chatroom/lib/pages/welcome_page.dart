@@ -27,17 +27,15 @@ class _WelcomePageState extends State<WelcomePage> {
                 textAlign: TextAlign.center,
                 controller: controller,
                 onEditingComplete: () {
-                  setState(() {
-                    usernameNotifier.value = controller.text;
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ChatroomPage();
-                        },
-                      ),
-                    );
-                  });
+                  usernameNotifier.value = controller.text;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ChatroomPage();
+                      },
+                    ),
+                  );
                 },
               ),
             ],
