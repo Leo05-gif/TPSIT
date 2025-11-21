@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chatroom/data/notifiers.dart';
+import 'package:chatroom/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class ChatroomPage extends StatefulWidget {
@@ -73,6 +74,7 @@ class _ChatroomPageState extends State<ChatroomPage> {
             ),
             TextField(
               controller: controller,
+              decoration: InputDecoration(border: OutlineInputBorder()),
               onEditingComplete: () {
                 socket.write(controller.text + '\n');
                 setState(() {
