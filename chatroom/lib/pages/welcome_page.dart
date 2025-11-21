@@ -15,13 +15,13 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Center(child: Text('Login Page'))),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Login', style: TextStyle(fontSize: 28.0)),
               TextField(
                 maxLength: 24,
                 textAlign: TextAlign.center,
