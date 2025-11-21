@@ -1,16 +1,8 @@
 # chatroom
+Implementazione in Dart di un server TCP, client testuale e client mobile in flutter
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Scelte
+- Suddivisione del programma in tre 'pagine', cioè Widget;
+- Pagina di login dove l'utente inserisce un nickname;
+- Pagina della chatroom dove l'utente visualizza e manda i messaggi;
+- Pagine delle impostazioni, accessibile dalla pagina chatroom, che permette di cambiare il tema dell'applicazione (scuro->chiaro e viceversa) e il font dei messaggi (tramite l'utilizzo della classe ValueNotifier);
