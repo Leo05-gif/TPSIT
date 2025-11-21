@@ -89,10 +89,15 @@ class _ChatroomPageState extends State<ChatroomPage> {
           children: [
             Divider(thickness: 2.0),
             Expanded(
-              child: ListView.builder(
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  return Text(messages[index]);
+              child: ValueListenableBuilder<TextStyle>(
+                valueListenable: styleTextNotifier,
+                builder: (context, style, child) {
+                  return ListView.builder(
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      return Text(messages[index], style: style);
+                    },
+                  );
                 },
               ),
             ),
