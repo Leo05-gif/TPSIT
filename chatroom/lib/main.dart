@@ -1,3 +1,4 @@
+import 'package:chatroom/data/notifiers.dart';
 import 'package:chatroom/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 
@@ -10,15 +11,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,
-          brightness: Brightness.dark,
-        ),
-      ),
-      home: WelcomePage(),
+    return ValueListenableBuilder(
+      valueListenable: isDarkNotifier,
+      builder: (context, isDark, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.teal,
+              brightness: isDark ? Brightness.dark : Brightness.light,
+            ),
+          ),
+          home: WelcomePage(),
+        );
+      },
     );
   }
 }
