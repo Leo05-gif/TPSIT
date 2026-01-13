@@ -27,9 +27,14 @@ class TodoItem extends StatelessWidget {
       child: Card(
         child: Column(
           children: [
-            ListTile(
-              leading: CircleAvatar(child: Text(todo.name[0])),
-              title: Text(todo.name),
+            Row(
+              children: [
+                Checkbox(value: todo.checked, onChanged: (value) {
+                  notifier.changeTodo(todo);
+                  },
+                ),
+                Text(todo.name, style: _getTextStyle(todo.checked)),
+              ],
             ),
           ],
         ),
