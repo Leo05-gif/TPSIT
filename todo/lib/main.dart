@@ -35,8 +35,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _textFieldController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final TodoListNotifier notifier = context.watch<TodoListNotifier>();
@@ -58,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => notifier.addTodo('type here ...'),
+        onPressed: () => notifier.addTodo('tap here ...'),
         tooltip: 'add todo',
         child: const Icon(Icons.add),
       ),

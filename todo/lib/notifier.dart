@@ -22,5 +22,10 @@ class TodoListNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  void changeTitleTodo(Todo todo, String newTitle) {
+    todo.name = newTitle;
+    notifyListeners();
+  }
+
   Todo getTodo(int i) => _todos[i];
 }
