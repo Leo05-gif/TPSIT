@@ -37,32 +37,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _textFieldController = TextEditingController();
 
-  Future<void> _displayDialog(TodoListNotifier notifier) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('add todo item'),
-          content: TextField(
-            controller: _textFieldController,
-            decoration: const InputDecoration(hintText: 'type here ...'),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Add'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                notifier.addTodo(_textFieldController.text);
-                _textFieldController.clear();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final TodoListNotifier notifier = context.watch<TodoListNotifier>();
@@ -84,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _displayDialog(notifier),
+        onPressed: () => notifier.addTodo('type here ...'),
         tooltip: 'add todo',
         child: const Icon(Icons.add),
       ),
