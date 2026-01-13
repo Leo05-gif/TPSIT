@@ -15,11 +15,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'am043 todo list',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.red)),
+      title: 'Todo List',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(colorScheme: .fromSeed(
+        seedColor: Colors.teal,
+        brightness: Brightness.dark,
+        ),
+      ),
       home: ChangeNotifierProvider<TodoListNotifier>(
         create: (notifier) => TodoListNotifier(),
-        child: const MyHomePage(title: 'am043 todo list'),
+        child: const MyHomePage(title: 'Todo List'),
       ),
     );
   }
