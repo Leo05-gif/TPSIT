@@ -9,15 +9,6 @@ class TodoItem extends StatelessWidget {
 
   final Todo todo;
 
-  TextStyle? _getTextStyle(bool checked) {
-    if (!checked) return null;
-
-    return const TextStyle(
-      color: Colors.black45,
-      decoration: TextDecoration.lineThrough,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final TodoListNotifier notifier = context.watch<TodoListNotifier>();
@@ -33,7 +24,7 @@ class TodoItem extends StatelessWidget {
                   notifier.changeTodo(todo);
                   },
                 ),
-                Text(todo.name, style: _getTextStyle(todo.checked)),
+                Text(todo.name),
               ],
             ),
           ],
