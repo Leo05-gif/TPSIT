@@ -51,7 +51,7 @@ class _TodoItemState extends State<TodoItem> {
                     child: TextField (
                       controller: _controller,
                       enabled: _enabled,
-                      decoration: const InputDecoration(border: InputBorder.none,),
+                      decoration: const InputDecoration(border: InputBorder.none, hintText: 'tap here ...'),
                       onSubmitted: (value) {
                         notifier.changeTitleTodo(widget.todo, value);
                         setState(() => _enabled = false);

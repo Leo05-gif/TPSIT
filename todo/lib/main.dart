@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -61,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => notifier.addTodo('tap here ...'),
+        onPressed: () => notifier.addTodo(),
         tooltip: 'add todo',
         child: const Icon(Icons.add),
       ),
