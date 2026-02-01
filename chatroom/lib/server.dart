@@ -6,7 +6,7 @@ List<ChatClient> clients = [];
 List<String> usernames = [];
 
 void main() {
-  ServerSocket.bind(InternetAddress.anyIPv4, 3000).then((ServerSocket socket) {
+  ServerSocket.bind("192.168.1.1", 3000).then((ServerSocket socket) {
     server = socket;
     server.listen((client) {
       handleConnection(client);

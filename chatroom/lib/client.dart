@@ -3,11 +3,10 @@ import 'dart:io';
 late Socket socket;
 
 void main() {
-
   print("Enter username!");
   String? name = stdin.readLineSync();
 
-  Socket.connect("localhost", 3000).then(
+  Socket.connect("192.168.1.1", 3000).then(
     (Socket sock) {
       socket = sock;
       sock.write("username:${name}");

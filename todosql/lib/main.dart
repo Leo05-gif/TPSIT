@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'model.dart';
-import 'notifier.dart';
-import 'widgets.dart';
+import 'package:todosql/card_notifier.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,13 +14,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Todo List',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: .fromSeed(
-        seedColor: Colors.teal,
-        brightness: Brightness.dark,
+      theme: ThemeData(
+        colorScheme: .fromSeed(
+          seedColor: Colors.teal,
+          brightness: Brightness.dark,
         ),
       ),
-      home: ChangeNotifierProvider<TodoListNotifier>(
-        create: (notifier) => TodoListNotifier(),
+      home: ChangeNotifierProvider<CardNotifier>(
+        create: (notifier) => CardNotifier(),
         child: const MyHomePage(title: 'Todo List'),
       ),
     );
@@ -42,7 +40,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final TodoListNotifier notifier = context.watch<TodoListNotifier>();
+    final CardNotifier notifier = context.watch<CardNotifier>();
 
     return Scaffold(
       appBar: AppBar(
@@ -51,18 +49,21 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: ListView.builder(
+        child: GridView.builder(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           itemCount: notifier.length,
           itemBuilder: (context, index) {
-            Todo todo = notifier.getTodo(index);
-            return TodoItem(todo: todo);
+            final card = notifier.getCard(index);
+            return card;
           },
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => notifier.addTodo(),
-        tooltip: 'add todo',
+        onPressed: () => notifier.addCard(),
+        tooltip: 'add card',
         child: const Icon(Icons.add),
       ),
     );

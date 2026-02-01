@@ -20,7 +20,7 @@ class _ChatroomPageState extends State<ChatroomPage> {
   void initState() {
     super.initState();
 
-    Socket.connect("localhost", 3000).then(
+    Socket.connect("192.168.1.3", 3000).then(
       (Socket sock) {
         socket = sock;
         sock.write("username:${usernameNotifier.value}");
