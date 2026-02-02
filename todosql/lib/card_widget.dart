@@ -4,23 +4,26 @@ import 'package:todosql/todo_notifier.dart';
 import 'package:todosql/todo_widget.dart';
 import 'package:todosql/card_notifier.dart'; // ← import your CardNotifier
 
-import 'model.dart';
+import 'card_model.dart';
+import 'helper.dart';
+import 'todo_model.dart';
 
 class CardWidget extends StatefulWidget {
-  CardWidget({super.key, required this.id});
-  int id;
+  CardWidget({required this.card}) : super(key: ObjectKey(card));
+
+  final CardModel card;
 
   @override
   State<CardWidget> createState() => _CardWidgetState();
 }
 
 class _CardWidgetState extends State<CardWidget> {
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => TodoListNotifier()),
-        ChangeNotifierProvider(create: (context) => CardNotifier()),
+        ChangeNotifierProvider(create: (context) => TodoListNotifier(cardId: widget.card.id!)),
       ],
       child: Builder(
         builder: (context) {
@@ -29,7 +32,7 @@ class _CardWidgetState extends State<CardWidget> {
 
           return Padding(
             padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-            child: Container(
+            child: SizedBox(
               width: 250,
               height: 250,
               child: Card(
@@ -40,8 +43,8 @@ class _CardWidgetState extends State<CardWidget> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            onPressed: () {
-                              cardNotifier.deleteCard(widget.id);
+                            onPressed: () { 
+                              cardNotifier.deleteCard(widget.card);
                             },
                             icon: const Icon(Icons.delete),
                           ),
@@ -52,7 +55,7 @@ class _CardWidgetState extends State<CardWidget> {
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           itemCount: todoNotifier.length,
                           itemBuilder: (context, index) {
-                            Todo todo = todoNotifier.getTodo(index);
+                            TodoModel todo = todoNotifier.getTodo(index);
                             return TodoItem(todo: todo);
                           },
                         ),

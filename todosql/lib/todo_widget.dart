@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'model.dart';
+import 'todo_model.dart';
 import 'todo_notifier.dart';
 
 class TodoItem extends StatefulWidget {
   TodoItem({required this.todo}) : super(key: ObjectKey(todo));
 
-  final Todo todo;
+  final TodoModel todo;
 
   @override
   State<TodoItem> createState() => _TodoItemState();

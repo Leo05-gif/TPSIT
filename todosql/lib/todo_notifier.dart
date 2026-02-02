@@ -1,31 +1,69 @@
 import 'package:flutter/widgets.dart';
+import 'todo_model.dart';
+import 'helper.dart';
 
-import 'model.dart';
+class TodoListNotifier extends ChangeNotifier {
+  final int cardId;
+  final List<TodoModel> _todos = [];
 
-class TodoListNotifier with ChangeNotifier {
-  final _todos = <Todo>[];
+  TodoListNotifier({required this.cardId}) {
+    _init();
+  }
 
   int get length => _todos.length;
 
-  void addTodo() {
-    _todos.add(Todo(name: '', checked: false));
+  TodoModel getTodo(int index) => _todos[index];
+
+  Future<void> _init() async {
+    await DatabaseHelper.init();
+    await _loadTodos();
+  }
+
+  Future<void> _loadTodos() async {
+    final todos = await DatabaseHelper.getTodosByCard(cardId);
+    _todos
+      ..clear()
+      ..addAll(todos);
     notifyListeners();
   }
 
-  void changeTodo(Todo todo) {
+  Future<void> addTodo([String name = '']) async {
+    final todo = TodoModel(
+      id: null,
+      name: name,
+      checked: false,
+      cardId: cardId,
+    );
+
+    _todos.insert(0, todo);
+    notifyListeners();
+
+    await DatabaseHelper.insertTodo(todo);
+  }
+
+  Future<void> changeTodo(TodoModel todo) async {
     todo.checked = !todo.checked;
-    notifyListeners();
-  }
 
-  void deleteTodo(Todo todo) {
     _todos.remove(todo);
+    if (!todo.checked) {
+      _todos.add(todo);
+    } else {
+      _todos.insert(0, todo);
+    }
+
     notifyListeners();
+    await DatabaseHelper.updateTodo(todo);
   }
 
-  void changeTitleTodo(Todo todo, String newTitle) {
+  Future<void> changeTitleTodo(TodoModel todo, String newTitle) async {
     todo.name = newTitle;
     notifyListeners();
+    await DatabaseHelper.updateTodo(todo);
   }
 
-  Todo getTodo(int i) => _todos[i];
+  Future<void> deleteTodo(TodoModel todo) async {
+    _todos.remove(todo);
+    notifyListeners();
+    await DatabaseHelper.deleteTodo(todo);
+  }
 }

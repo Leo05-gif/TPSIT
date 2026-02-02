@@ -1,22 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:todosql/card_widget.dart';
+
+import 'card_model.dart';
 
 class CardNotifier with ChangeNotifier {
-  final _cards = <CardWidget>[];
-  int _id = 0;
+  final _cards = <CardModel>[];
 
   int get length => _cards.length;
 
   void addCard() {
-    _cards.add(CardWidget(id: _id));
-    _id++;
+    _cards.add(CardModel(id: null),);
     notifyListeners();
   }
 
-  void deleteCard(int cardId) {
-    _cards.removeAt(cardId);
+  void deleteCard(CardModel card) {
+    _cards.remove(card);
     notifyListeners();
   }
 
-  CardWidget getCard(int i) => _cards[i];
+  CardModel getCard(int i) => _cards[i];
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todosql/card_model.dart';
 import 'package:todosql/card_notifier.dart';
+import 'package:todosql/card_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,11 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           itemCount: notifier.length,
           itemBuilder: (context, index) {
-            final card = notifier.getCard(index);
-            return card;
+            CardModel cardModel = notifier.getCard(index);
+            return CardWidget(card: cardModel);
           },
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: 2,
           ),
         ),
       ),
