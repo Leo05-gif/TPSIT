@@ -1,8 +1,38 @@
 {
-  "$schema": "./node_modules/json-server/schema.json",
   "products": [
-    { "name": "banana", "description": "gialla", "category": "cibo", "price": 12, "n": 1},
-    { "name": "automobile", "description": "blu", "category": "veicoli", "price": 1, "n": 11},
-    { "name": "leopard-2", "description": "bello", "category": "veicolo", "price": 2, "n": 100}
-  ]
+    {
+      "name": "banana",
+      "description": "gialla",
+      "category": "cibo",
+      "price": 12,
+      "n": 1,
+      "id": "bb9b"
+    },
+    {
+      "name": "automobile",
+      "description": "blu",
+      "category": "veicoli",
+      "price": 1,
+      "n": 11,
+      "id": "7e9f"
+    },
+    {
+      "name": "leopard-2",
+      "description": "bello",
+      "category": "veicolo",
+      "price": 2,
+      "n": 100,
+      "id": "757f"
+    },
+    {
+      "id": "3a6a",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json",
+  "version": 1
 }
