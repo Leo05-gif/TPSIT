@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/json-server/schema.json",
+  "products": [
+    { "name": "banana", "description": "gialla", "category": "cibo", "price": 12, "n": 1},
+    { "name": "automobile", "description": "blu", "category": "veicoli", "price": 1, "n": 11},
+    { "name": "leopard-2", "description": "bello", "category": "veicolo", "price": 2, "n": 100}
+  ]
+}
