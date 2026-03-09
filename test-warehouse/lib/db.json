@@ -31,8 +31,72 @@
       "category": "oggetto",
       "price": 12,
       "n": 1
+    },
+    {
+      "id": "7fea",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
+    },
+    {
+      "id": "0813",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
+    },
+    {
+      "id": "ab08",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
+    },
+    {
+      "id": "6433",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
+    },
+    {
+      "id": "7312",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
+    },
+    {
+      "id": "a93a",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
+    },
+    {
+      "id": "fcd0",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
+    },
+    {
+      "id": "982d",
+      "name": "palla",
+      "description": "bianca",
+      "category": "oggetto",
+      "price": 12,
+      "n": 1
     }
   ],
-  "$schema": "./node_modules/json-server/schema.json",
-  "version": 1
+  "version": 1,
+  "$schema": "./node_modules/json-server/schema.json"
 }
