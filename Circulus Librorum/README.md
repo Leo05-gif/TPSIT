@@ -4,7 +4,8 @@ Applicazione per la gestione e l'organizzazione di club di lettura. Ogni utente 
 
 # Tabella di marcia
 ## Progettazione
-- database;
+
+- database ✔️;
 - UI del client.
 ## Implementazione del server
 N.B ogni azione di cancellazione, aggiunta e modifica riguardanti le entità di un gruppo possono essere effettuate soltanto dal gestore di tale gruppo.
@@ -38,6 +39,9 @@ N.B sql injection e altre possibili vulnerabilità.
 - fornire informazioni commento;
 - eliminazione commento.
 *permettere solo colui che l'ha pubblicato
+
+<img width="780" height="1383" alt="Untitled(1)" src="https://github.com/user-attachments/assets/e3321bd1-eafa-4633-ac7d-581f1c56dc83" />
+
 ## Implementazione del client
 
 # Risorse utilizzate
