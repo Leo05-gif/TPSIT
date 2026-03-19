@@ -39,7 +39,7 @@ N.B sql injection e altre possibili vulnerabilità.
 - fornire informazioni commento;
 - eliminazione commento.
 
-<img width="819" height="1198" alt="database_picture" src="https://github.com/user-attachments/assets/78556882-7470-4566-a652-cc838448ed1b" />
+<img width="819" height="1198" alt="database_picture" src="https://github.com/user-attachments/assets/86cfd652-bc80-4c3f-8bd6-d1f7cfb731ca" />
 
 ## Implementazione del client
 
