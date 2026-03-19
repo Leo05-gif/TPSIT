@@ -35,12 +35,11 @@ N.B sql injection e altre possibili vulnerabilità.
 - conferma da parte dell'utente di avvenuta lettura.
 ### Commenti
 - aggiunta commento;
-- *modifica commento;
+- modifica commento; (permettere solo colui che l'ha pubblicato)
 - fornire informazioni commento;
 - eliminazione commento.
-*permettere solo colui che l'ha pubblicato
 
-<img width="780" height="1383" alt="Untitled(1)" src="https://github.com/user-attachments/assets/e3321bd1-eafa-4633-ac7d-581f1c56dc83" />
+<img width="819" height="1198" alt="database_picture" src="https://github.com/user-attachments/assets/78556882-7470-4566-a652-cc838448ed1b" />
 
 ## Implementazione del client
 
