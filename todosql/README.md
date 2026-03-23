@@ -5,10 +5,10 @@ Applicazione todo che usa un database locale SQLite per memorizzare i gruppi e l
 # Scelte
 - Card per rappresentare sia il gruppo che le task;
 - Database:
-  1. todos
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      checked INTEGER NOT NULL,
-      cardId INTEGER NOT NULL
-  2. cards
-       id INTEGER PRIMARY KEY AUTOINCREMENT
+**todos**
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+checked INTEGER NOT NULL,
+cardId INTEGER NOT NULL
+**cards**
+id INTEGER PRIMARY KEY AUTOINCREMENT
