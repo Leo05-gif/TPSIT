@@ -4,6 +4,7 @@ Applicazione todo che usa un database locale SQLite per memorizzare i gruppi e l
 
 # Scelte
 - Card per rappresentare sia il gruppo che le task;
+- Utilizzo del ChangeNotifier per gestire l'aggiunta e la rimozione di cards/todos;
 - Database:
   
 **todos**
