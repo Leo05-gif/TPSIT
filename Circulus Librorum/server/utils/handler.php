@@ -1,14 +1,14 @@
 <?php
-function check_param(&$param) {
+function check_param(&$param): bool {
     if (strlen($param) < 8 && is_string($param)) {
-        return false;
+        throw new Exception('Wrong input');
     }
     return true;
 }
 
-function get_content() {
+function get_content(): mixed {
     if (!$content = file_get_contents('php://input')) {
-        die(http_response_code(400));
+        throw new Exception('Cannot read input file');
     }
     return json_decode($content, true);
 }

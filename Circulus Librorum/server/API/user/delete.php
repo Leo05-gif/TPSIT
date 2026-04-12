@@ -1,79 +1,68 @@
 <?php
 
-include_once __DIR__ . '/../../utils/token.php';
-include_once __DIR__ . '/../../utils/database.php';
-include_once __DIR__ . '/../../utils/handler.php';
+$root = $_SERVER['DOCUMENT_ROOT'];
 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data = get_content();
+require_once $root . '/utils/handler.php';
+require_once $root . '/utils/database.php';
+require_once $root . '/utils/user_token.php';
 
-    if (!isset($data['token'], $data['password'])) {
-        die(http_response_code(400));
+function delete(): array {
+    try {
+
+        $data = get_content();
+
+        if (!isset($data['token'], $data['password'])) {
+            throw new Exception('Not enough input values');
+        }
+
+        $token = trim($data['token']);
+        $pwd = trim($data['password']);
+
+        check_param($token);
+        check_param($pwd);
+
+        $connection = connect();
+        $query = 'SELECT id FROM users_tokens WHERE token=(?)';
+        $params = [$token];
+
+        $token_result = execute($connection, $query, 's', $params);
+
+        if ($token_result['count'] <= 0) {
+            error_log('User session doesnt exist');
+            throw new Exception('Failed to find token');
+        }
+
+        $query = 'SELECT * FROM users WHERE id=(?)';
+        $params = [$token_result['data'][0]['id']];
+
+        $pwd_result = execute($connection, $query, 'i', $params);
+
+        if ($pwd_result['count'] <= 0) {
+            error_log('User not found');
+            throw new Exception('Failed to find user');
+        }
+
+        if (!password_verify($pwd, $pwd_result['data'][0]['password'])) {
+            error_log('invalid password');
+            throw new Exception('Failed to validated password');
+        }
+
+        validate_token($connection, $token);
+
+        $query = 'DELETE FROM users WHERE id=(?)';
+        $params = [$pwd_result['data'][0]['id']];
+
+        execute($connectio,$query, 'i', $params);
+
+        http_response_code(200);
+        return [
+            'success' => true,
+            'message' => 'User has been deleted',
+        ];
+
+    } catch (Exception $e) {
+        error_log('Deleting failed for ' . $token . ': ' . $e->getMessage());
+        throw new Exception('Failed to delete user. Please try again later');
     }
-
-    $token = trim($data['token']);
-    $pwd = trim($data['password']);
-
-    if (!check_param($token) && !check_param($pwd)) {
-        die(http_response_code(400));
-    }
-
-    $connection = connect();
-
-    if (!validate_token($connection, $token)) {
-        die(http_response_code(400));
-    }
-
-    $query = 'SELECT id FROM users_tokens WHERE token=(?)';
-    $params = [$token];
-    if (!$stmt = execute($connection, $query, 's', $params)) {
-        die(http_response_code(401));
-    }
-
-    if (!$result = fetch_data($stmt)) {
-        die(http_response_code(400));
-    }
-
-    if (!$row = $result->fetch_assoc()) {
-        die(http_response_code(400));
-    }
-
-    if (!isset($row['id'])) {
-        die(http_response_code(400));
-    }
-
-    $id = $row['id'];
-
-    $query = 'SELECT password FROM users WHERE id=(?)';
-    $params = [$id];
-    if (!$stmt = execute($connection, $query, 's', $params)) {
-        die(http_response_code(400));
-    }
-
-    if (!$result = fetch_data($stmt)) {
-        die(http_response_code(400));
-    }
-
-    if (!$row = $result->fetch_assoc()) {
-        die(http_response_code(400));
-    }
-
-    if (!isset($row['password'])) {
-        die(http_response_code(400)); 
-    }
-
-    if (!password_verify($pwd, $row['password'])) {
-        die(http_response_code(401));
-    }
-
-    $query = 'DELETE FROM users WHERE id=(?)';
-    $params = [$id];
-    if (!$stmt = execute($connection, $query, 's', $params)) {
-        die(http_response_code(400));
-    }
-
-    echo http_response_code(200);
-    $stmt->close();
-    $connection->close();
 }
 ?>

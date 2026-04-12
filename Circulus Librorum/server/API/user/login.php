@@ -1,55 +1,55 @@
 <?php
 
-include_once __DIR__ . '/../../utils/token.php';
-include_once __DIR__ . '/../../utils/database.php';
-include_once __DIR__ . '/../../utils/handler.php';
+$root = $_SERVER['DOCUMENT_ROOT'];
 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data = get_content();
+require_once $root . '/utils/handler.php';
+require_once $root . '/utils/database.php';
+require_once $root . '/utils/user_token.php';
 
-    if (!isset($data['username']) && $data['password']) {
-        die(http_response_code(400));
+function login(): array {
+    try {
+
+        $data = get_content();
+
+        if (!isset($data['username'], $data['password'])) {
+            throw new Exception('Not enough input values');
+        }
+
+        $usr = trim($data['username']);
+        $pwd = trim($data['password']);
+
+        check_param($usr);
+        check_param($pwd);
+
+        $connection = connect();
+
+        $query = 'SELECT * FROM users WHERE username=(?)';
+        $params = [$usr];
+
+        $result = execute($connection, $query, 's', $params);
+
+        if (empty($result['data']) || count($result['data']) === 0) {
+            error_log('Invalid login attempt: ' . $usr);
+            throw new Exception('Failed to login');
+        }
+
+        if (!password_verify($pwd, $result['data'][0]['password'])) {
+            error_log('Invalid password authentication: ' . $usr);
+            throw new Exception('Failed to verify password. Please try again');
+        }
+
+        $token = create_token($connection, $result['data'][0]['id']);
+
+        http_response_code(201);
+        return [
+            'success' => true,
+            'message' => 'Successful login',
+            'token' => $token,
+        ];
+
+    } catch (Exception $e) {
+            error_log('Login failed for: ' . $e->getMessage());
+            throw new Exception('Failed to login user. Please try again later');
     }
-
-    $usr = trim($data['username']);
-    $pwd = trim($data['password']);
-
-    if (!check_param($usr) || !check_param($pwd)) {
-        die(http_response_code(400));
-    }
-
-    $connection = connect();
-
-    $query = 'SELECT * FROM users WHERE username=(?)';
-    $params = [$usr];
-    if (!$stmt = execute($connection, $query, 's', $params)) {
-        die(http_response_code(400));
-    }
-
-    if (!$result = fetch_data($stmt)) {
-        die(http_response_code(400));
-    }
-
-    if (!$row = $result->fetch_assoc()) {
-        die(http_response_code(400));
-    }
-
-    if (!isset($row['id'], $row['password'])) {
-        die(http_response_code(400)); 
-    }
-
-    if (!password_verify($pwd, $row['password'])) {
-        die(http_response_code(401));
-    }
-
-    if (!$token = create_token($connection, $row['id'])) {
-        die(http_response_code(400));
-    }
-    
-    header('Content-Type: application/json');
-    http_response_code(200);
-    echo json_encode(['token' => $token]);
-
-    $connection->close();
 }
 ?>
