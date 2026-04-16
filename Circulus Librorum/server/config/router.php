@@ -3,9 +3,13 @@
 function get_routes(): array {
     return $router = [
             'user' => [
-                'login' => 'user/login',
-                'register' => 'user/register',
-                'delete' => 'user/delete'
+                'login' => 'login',
+                'register' => 'register',
+                'delete' => 'delete_user'
+            ],
+            'club' => [
+                'create' => 'create_club',
+                'delete' => 'delete_club'
             ]
         ];
 }

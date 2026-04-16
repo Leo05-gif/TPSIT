@@ -4,14 +4,14 @@ require_once 'database.php';
 
 function create_token(&$connection, &$id): string {
     try {
-        $query = 'DELETE FROM users_tokens WHERE id=(?)';
+        $query = 'DELETE FROM user_tokens WHERE id=(?)';
         $params = [$id];
 
         execute($connection, $query, 'i', $params);
 
         $token = generate_token();
 
-        $query = 'INSERT INTO users_tokens (id, token, expires_at) VALUES (?, ?, NOW() + INTERVAL 30 DAY)';
+        $query = 'INSERT INTO user_tokens (id, token, expires_at) VALUES (?, ?, NOW() + INTERVAL 30 DAY)';
         $params = [$id, $token];
 
         execute($connection, $query, 'is', $params);
@@ -26,7 +26,7 @@ function create_token(&$connection, &$id): string {
 
 function validate_token(&$connection, string &$token): void {
     try {
-        $query = 'SELECT expires_at FROM users_tokens WHERE token=(?)';
+        $query = 'SELECT expires_at FROM user_tokens WHERE token=(?)';
         $params = [$token];
 
         $result = execute($connection, $query, 's', $params);

@@ -22,9 +22,9 @@ $input_method = $uri[3];
 
 foreach ($route as $resource_key=>$resource_value) {
     foreach ($resource_value as $method_key=>$method_value) {
-        if ($input_resource == $resource_key && $input_method == $method_key) {
+        if ($input_resource == $resource_key && $input_method == $method_value) {
             try {
-                die(json_encode(call_user_func($method_key)));
+                die(json_encode(call_user_func($method_value)));
             } catch (Exception $e) {
                 http_response_code(400);
                 die(json_encode([

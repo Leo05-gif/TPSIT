@@ -6,7 +6,7 @@ require_once $root . '/utils/handler.php';
 require_once $root . '/utils/database.php';
 require_once $root . '/utils/user_token.php';
 
-function delete(): array {
+function delete_user(): array {
     try {
 
         $data = get_content();
@@ -22,7 +22,7 @@ function delete(): array {
         check_param($pwd);
 
         $connection = connect();
-        $query = 'SELECT id FROM users_tokens WHERE token=(?)';
+        $query = 'SELECT id FROM user_tokens WHERE token=(?)';
         $params = [$token];
 
         $token_result = execute($connection, $query, 's', $params);
