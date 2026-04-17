@@ -1,7 +1,7 @@
 <?php
 require_once 'database.php';
 
-function create_club_token(&$connection, &$user_id, &$club_id): string {
+function create_club_invite(&$connection, &$user_id, &$club_id): string {
     try {
         $token = generate_club_token();
         $query = 'INSERT INTO club_invites (token, created_by, club_id, expires_at) VALUES (?, ?, ?, NOW() + INTERVAL 1 DAY)';
@@ -19,9 +19,9 @@ function create_club_token(&$connection, &$user_id, &$club_id): string {
     }
 }
 
-function validate_club_token(&$connection, &$token): void {
+function validate_club_invite(&$connection, &$token): int {
     try {
-        $query = 'SELECT expires_at FROM club_invites WHERE token=(?)';
+        $query = 'SELECT * FROM club_invites WHERE token=(?)';
         $params = [$token];
 
         $result = execute($connection, $query, 's', $params);
@@ -30,19 +30,21 @@ function validate_club_token(&$connection, &$token): void {
             throw new Exception('Invalid club token');
         }
 
-        $tokenData = $result['data'][0];
+        $token_data = $result['data'][0];
+
+        error_log(print_r($token_data));
 
         $format = 'Y-m-d H:i:s';
         $current_date = \DateTime::createFromFormat($format, time());
-        $expires_at_date = \DateTime::createFromFormat($format, $tokenData['expires_at']);
-
-        $query = 'DELETE FROM club_invites WHERE token=(?)';
-        $params = [$token];
-        execute($connection, $query, 's', $params);
+        $expires_at_date = \DateTime::createFromFormat($format, $token_data['expires_at']);
 
         if ($current_date > $expires_at_date) {
+            $query = 'DELETE FROM club_invites WHERE token=(?)';
+            $params = [$token];
+            execute($connection, $query, 's', $params);
             throw new Exception('Expired token');
         }
+        return $token_data['club_id'];
     } catch (Exception $e) {
         throw new Exception('Failed to validate invite token. Please try again later.');
     }

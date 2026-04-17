@@ -28,7 +28,7 @@ function create_invite() {
             throw new Exception('Club isnt owned by user');
         }
 
-        $invite = create_club_token($connection, $owner_id, $club_id);
+        $invite = create_club_invite($connection, $owner_id, $club_id);
     
         http_response_code(201);
         return [
