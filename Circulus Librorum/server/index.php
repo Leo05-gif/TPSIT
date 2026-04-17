@@ -22,10 +22,12 @@ $input_method = $uri[3];
 
 foreach ($route as $resource_key=>$resource_value) {
     foreach ($resource_value as $method_key=>$method_value) {
+        error_log($method_key);
         if ($input_resource == $resource_key && $input_method == $method_value) {
             try {
                 die(json_encode(call_user_func($method_value)));
             } catch (Exception $e) {
+                error_log('ERROR: ' . $e->getMessage());
                 http_response_code(400);
                 die(json_encode([
                     'success' => false,

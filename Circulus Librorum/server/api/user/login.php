@@ -29,16 +29,14 @@ function login(): array {
         $result = execute($connection, $query, 's', $params);
 
         if (empty($result['data']) || count($result['data']) === 0) {
-            error_log('Invalid login attempt: ' . $usr);
             throw new Exception('Failed to login');
         }
 
         if (!password_verify($pwd, $result['data'][0]['password'])) {
-            error_log('Invalid password authentication: ' . $usr);
             throw new Exception('Failed to verify password. Please try again');
         }
 
-        $token = create_token($connection, $result['data'][0]['id']);
+        $token = create_user_token($connection, $result['data'][0]['id']);
 
         http_response_code(201);
         return [
@@ -48,7 +46,6 @@ function login(): array {
         ];
 
     } catch (Exception $e) {
-            error_log('Login failed for: ' . $e->getMessage());
             throw new Exception('Failed to login user. Please try again later');
     }
 }

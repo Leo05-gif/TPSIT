@@ -35,10 +35,9 @@ CREATE TABLE club_memberships (
 );
 
 CREATE TABLE club_invites (
-    token text NOT NULL UNIQUE,
+    token TEXT NOT NULL,
     created_by INT NOT NULL,
     club_id INT NOT NULL,
-    created_at DATETIME NOT NULL,
     expires_at DATETIME NOT NULL,
 
     FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE,

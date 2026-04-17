@@ -28,7 +28,6 @@ function register(): array {
         $result = execute($connection, $query, 's', $params);
 
         if (!empty($result['data']) && count($result['data']) > 0) {
-            error_log('Username already exists: ' . $usr);
             throw new Exception('Failed to register');
         }
 
@@ -50,7 +49,6 @@ function register(): array {
         ];
 
     } catch (Exception $e) {
-        error_log('Registration failed for ' . $usr . ': ' . $e->getMessage());
         throw new Exception('Failed to registrate user. Please try again later');
     }
 }

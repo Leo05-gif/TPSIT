@@ -11,7 +11,6 @@ function create_club(): array {
         $data = get_content();
 
         if (!isset($data['token'], $data['name'], $data['description'])) {
-            error_log('CREATE_CLUB: invalid input');
             throw new Exception('Not enough input values');
         }
 
@@ -21,18 +20,7 @@ function create_club(): array {
 
         $connection = connect();
 
-        validate_token($connection, $usr_token);
-
-        $query = 'SELECT * FROM user_tokens WHERE token=(?)';
-        $params = [$usr_token];
-        $user_result = execute($connection, $query, 's', $params);
-
-        if ($user_result['count'] <= 0) {
-            error_log('CREATE_CLUB: user not found');
-            throw new Exception('User not found');
-        }
-
-        $owner_id = $user_result['data'][0]['id'];
+        $owner_id = validate_user_token($connection, $usr_token);
 
         $query = 'INSERT INTO clubs (owner_id, name, description, created_at) VALUES (?, ?, ?, NOW())';
         $params = [$owner_id, $club_name, $club_description];
@@ -41,7 +29,6 @@ function create_club(): array {
         $club_id = $insert_result['last_insert_id'];
 
         if ($club_id === null) {
-            error_log('CREATE_CLUB: club id couldnt be found');
             throw new Exception('Couldnt create club');
         }
 
@@ -55,7 +42,6 @@ function create_club(): array {
             'message' => 'Successful club creation',
         ];
     } catch (Exception $e) {
-        error_log('CREATE_CLUB: cannot create a new club');
         throw new Exception('Cannot create a new club: ' . $e);
     }
 }
