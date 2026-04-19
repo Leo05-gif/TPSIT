@@ -6,7 +6,7 @@ require_once $root . '/utils/database.php';
 require_once $root . '/utils/user_token.php';
 require_once $root . '/utils/club_token.php';
 
-function create_invite() {
+function create_invite(): array {
     try {
         $data = get_content();
 

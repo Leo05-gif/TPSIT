@@ -8,4 +8,5 @@ require_once ROOT . 'api/club/create_club.php';
 require_once ROOT . 'api/club/delete_club.php';
 require_once ROOT . 'api/club/create_invite.php';
 require_once ROOT . 'api/club/join_club.php';
+require_once ROOT . 'api/club/get_memberships.php';
 ?>

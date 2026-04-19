@@ -35,7 +35,7 @@ CREATE TABLE club_memberships (
 );
 
 CREATE TABLE club_invites (
-    token TEXT NOT NULL,
+    invite TEXT NOT NULL,
     created_by INT NOT NULL,
     club_id INT NOT NULL,
     expires_at DATETIME NOT NULL,

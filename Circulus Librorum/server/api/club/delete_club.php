@@ -6,7 +6,7 @@ require_once $root . '/utils/handler.php';
 require_once $root . '/utils/database.php';
 require_once $root . '/utils/user_token.php';
 
-function delete_club() {
+function delete_club(): array {
     try {
         $data = get_content();
 
