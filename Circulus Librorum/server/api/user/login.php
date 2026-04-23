@@ -38,7 +38,6 @@ function login(): array {
 
         $token = create_user_token($connection, $result['data'][0]['id']);
 
-        http_response_code(201);
         return [
             'success' => true,
             'message' => 'Successful login',
@@ -46,7 +45,7 @@ function login(): array {
         ];
 
     } catch (Exception $e) {
-            throw new Exception('Failed to login user. Please try again later');
+            throw new Exception($e);
     }
 }
 ?>

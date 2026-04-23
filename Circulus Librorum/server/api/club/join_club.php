@@ -43,7 +43,7 @@ function join_club() {
         ];
 
     } catch (Exception $e) {
-        throw new Exception('Cannot join club: ' . $e->getMessage());
+        throw new Exception($e);
     }
 }
 ?>

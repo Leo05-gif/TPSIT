@@ -27,7 +27,7 @@ function get_memberships() {
             'data' => $result['data'][0],
         ];
     } catch (Exception $e) {
-        throw new Exception('Unable to get memberships: ' . $e->getMessage());
+        throw new Exception($e);
     }
 }
 ?>

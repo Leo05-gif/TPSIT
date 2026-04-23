@@ -30,14 +30,13 @@ function create_invite(): array {
 
         $invite = create_club_invite($connection, $owner_id, $club_id);
     
-        http_response_code(201);
         return [
             'success' => true,
             'message' => 'Successful invite creation',
             'invite' => $invite,
         ];
     } catch (Exception $e) {
-        throw new Exception('Cannot create invite: ' . $e->getMessage());
+        throw new Exception($e);
     }
 }
 ?>

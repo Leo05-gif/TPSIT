@@ -36,13 +36,12 @@ function create_club(): array {
         $params = [$owner_id, $club_id];
         execute($connection, $query, 'ii', $params);
 
-        http_response_code(201);
         return [
             'success' => true,
             'message' => 'Successful club creation',
         ];
     } catch (Exception $e) {
-        throw new Exception('Cannot create a new club: ' . $e);
+        throw new Exception($e);
     }
 }
 ?>

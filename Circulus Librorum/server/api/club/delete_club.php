@@ -34,7 +34,7 @@ function delete_club(): array {
         ];
 
     } catch (Exception $e) {
-        throw new Exception('Cannot delete club: ' . $e);
+        throw new Exception($e);
     }
 }
 ?>

@@ -42,14 +42,13 @@ function register(): array {
 
         $result = execute($connection, $query, 'ss', $params);
 
-        http_response_code(201);
         return [
             'success' => true,
             'message' => 'Successful registration',
         ];
 
     } catch (Exception $e) {
-        throw new Exception('Failed to registrate user. Please try again later');
+        throw new Exception($e);
     }
 }
 ?>

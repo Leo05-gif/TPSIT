@@ -42,14 +42,13 @@ function delete_user(): array {
         $params = [$user_id];
         execute($connectio,$query, 'i', $params);
 
-        http_response_code(200);
         return [
             'success' => true,
             'message' => 'User has been deleted',
         ];
 
     } catch (Exception $e) {
-        throw new Exception('Failed to delete user. Please try again later');
+        throw new Exception($e);
     }
 }
 ?>

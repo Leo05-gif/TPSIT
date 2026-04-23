@@ -43,3 +43,23 @@ CREATE TABLE club_invites (
     FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE
 );
+
+CREATE TABLE sessions (
+    id INT NOT NULL AUTO_INCREMENT,
+    club_id INT NOT NULL,
+    book_title TEXT NOT NULL,
+    description TEXT NOT NULL,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE
+);
+
+CREATE TABLE turns (
+    id INT NOT NULL AUTO_INCREMENT,
+    session_id INT NOT NULL,
+    start DATETIME NOT NULL,
+    end DATETIME NOT NULL,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
+);
