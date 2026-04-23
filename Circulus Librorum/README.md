@@ -83,4 +83,4 @@ Colui che crea il club ne diventa il gestore, ovvero è l'unico in grado di effe
 
 ### INVITARE
 
-L'invito è un codice alfanumerico univoco formato da otto caratteri utilizzabile soltanto una volta. Le operazioni di creazione e validazione sono analoghi a quelli usati da lato utente, con l'unica differenza che se l'invito è scaduto viene eliminato.
+L'invito è un codice alfanumerico univoco formato da otto caratteri utilizzabile soltanto una volta. Le operazioni di creazione e validazione sono analoghe a quelli usati da lato utente, con l'unica differenza che se l'invito è scaduto viene eliminato.
