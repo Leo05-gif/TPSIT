@@ -59,7 +59,6 @@ Il file index.php fa da entry point e gestisce in modo opportuno ogni chiamate a
 
 Implementazione della parte riguardante la registrazione, login, autenticazione ed eliminazione di un utente. 
 
-### Autenticazione
 All'utente viene assegnato un *token* univoco (le funzioni relative alla gestione dei token sono definite in utils/token.php) valido fino al prossimo login oppure fino alla scadenza del token stesso (expires_at) con lo scopo di verificare la validità delle richieste effettuate dal client, ovvero di non permettere a terzi di fare chiamate all'API. Il token viene generato dalla seguente funzione:
 
 
@@ -73,14 +72,11 @@ La funzione `random_bytes()` genera una seguenza casuale di lunghezza n (in ques
 
 Questo sistema permette una sola "sessione" per utente, ma ritengo che sia sufficiente per gli scopi del progetto.
 
-### Eliminazione Utente
 Per eliminare l'account il client spedisce il token della propria "sessione" e la password, per un'ulteriore verifica. La relativa riga della sessione presente nella tabella *users_tokens* sarà cancellata all'eliminazione dell'utente grazie al constrain "ON DELETE CASCADE"
 
 ## STEP 2
 Implementazione dei servizi riguardanti la gestione dei club.
 
 Colui che crea il club ne diventa il gestore, ovvero è l'unico in grado di effettuare operazioni relativi alla sua gestione (cancellazione, creazione inviti). Perciò gli script che si occupano di siffatte operazioni verificano che tale utente sia il capo di tale gruppo.
-
-### INVITARE
 
 L'invito è un codice alfanumerico univoco formato da otto caratteri utilizzabile soltanto una volta. Le operazioni di creazione e validazione sono analoghe a quelli usati da lato utente, con l'unica differenza che se l'invito è scaduto viene eliminato.
