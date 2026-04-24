@@ -6,18 +6,17 @@ require_once $root . '/utils/handler.php';
 require_once $root . '/utils/database.php';
 require_once $root . '/utils/user_token.php';
 
-function create_session(): array {
+function delete_session() {
     try {
         $data = get_content();
 
-        if (!isset($data['token'], $data['club_id'], $data['book_title'], $data['description'])) {
+        if (!isset($data['token'], $data['club_id'], $data['session_id'])) {
             throw new Exception('Not enough input values');
         }
 
         $token = trim($data['token']);
         $club_id = trim($data['club_id']);
-        $book_title = trim($data['book_title']);
-        $description = trim($data['description']);
+        $session_id = trim($data['session_id']);
 
         $connection = connect();
         $usr_id = validate_user_token($connection, $token);
@@ -27,24 +26,26 @@ function create_session(): array {
         $result = execute($connection, $query, 'ii', $params);
 
         if ($result['count'] <= 0) {
-            throw new Exception('Couldnt create sessions');
+            throw new Exception('Session doesnt exist');
         }
 
-        $query = 'INSERT INTO sessions (club_id, book_title, description, completed) VALUES (?, ?, ?, false)';
-        $params = [$club_id, $book_title, $description];
-        $result = execute($connection, $query, 'iss', $params);
+        $query = 'DELETE FROM sessions WHERE id=(?)';
+        $params = [$session_id];
+        $deletion_result = execute($connection, $query, 'i', $params);
 
-        if ($result['affected_rows'] <= 0) {
-            throw new Exception('Couldnt create session');
+
+        if ($deletion_result['affected_rows'] <= 0) {
+            throw new Exception('Couldnt delete session');
         }
 
         return [
             'success' => true,
-            'message' => 'Session was created successfully',
+            'message' => 'Successful session deletion',
         ];
+
 
     } catch (Exception $e) {
         throw new Exception($e);
     }
-} 
+}
 ?>

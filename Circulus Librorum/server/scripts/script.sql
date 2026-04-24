@@ -49,6 +49,7 @@ CREATE TABLE sessions (
     club_id INT NOT NULL,
     book_title TEXT NOT NULL,
     description TEXT NOT NULL,
+    completed BOOLEAN NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE
@@ -59,6 +60,7 @@ CREATE TABLE turns (
     session_id INT NOT NULL,
     start DATETIME NOT NULL,
     end DATETIME NOT NULL,
+    completed BOOLEAN NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE

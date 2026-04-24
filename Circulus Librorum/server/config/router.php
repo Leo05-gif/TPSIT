@@ -13,6 +13,12 @@ function get_routes(): array {
                 'create_invite' => 'create_invite' ,
                 'join_club' => 'join_club',
                 'get_memberships' => 'get_memberships'
+            ],
+            'session' => [
+                'create_session' => 'create_session',
+                'delete_session' => 'delete_session',
+                'get_sessions' => 'get_sessions',
+                'complete_session' => 'complete_session'
             ]
         ];
 }
