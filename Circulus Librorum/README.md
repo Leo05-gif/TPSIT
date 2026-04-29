@@ -16,6 +16,8 @@ Applicazione per la gestione e l'organizzazione di club di lettura. Ogni utente 
 
 # DIARIO
 
+<img width="1102" height="680" alt="db" src="https://github.com/user-attachments/assets/374fbd87-3567-4b41-81fd-c860b8967e0b" />
+
 ## STEP 1
 Il file index.php fa da entry point e gestisce in modo opportuno ogni chiamate all'API da parte del client.
 
