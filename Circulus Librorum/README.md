@@ -41,7 +41,7 @@ Per eliminare l'account il client spedisce il token della propria "sessione" e l
 ## STEP 2
 Implementazione dei servizi riguardanti la gestione dei club.
 
-Colui che crea il club ne diventa il gestore, ovvero è l'unico in grado di effettuare operazioni relativi alla sua gestione (cancellazione, creazione inviti). Perciò gli script che si occupano di siffatte operazioni verificano che tale utente sia il capo di tale gruppo.
+Colui che crea il club ne diventa il gestore, ovvero è l'unico in grado di effettuare operazioni relativi alla sua amministrazione (cancellazione, creazione inviti). Perciò li script che si occupano di siffatte operazioni verificano che tale utente sia il capo di tale gruppo.
 
 L'invito è un codice alfanumerico univoco formato da otto caratteri utilizzabile soltanto una volta. Le operazioni di creazione e validazione sono analoghe a quelli usati da lato utente, con l'unica differenza che se l'invito è scaduto viene eliminato.
 
