@@ -51,6 +51,7 @@ N.B sql injection e altre possibili vulnerabilità.
 - **https://www.php.net/manual/en/security.database.sql-injection.php**
 - **https://www.php.net/manual/en/wrappers.php.php**
 - **https://www.php.net/manual/en/reserved.variables.httpresponseheader.php**
+- **https://it.wikipedia.org/wiki/Autenticazione**
 
 # DIARIO
 
@@ -80,3 +81,6 @@ Implementazione dei servizi riguardanti la gestione dei club.
 Colui che crea il club ne diventa il gestore, ovvero è l'unico in grado di effettuare operazioni relativi alla sua gestione (cancellazione, creazione inviti). Perciò gli script che si occupano di siffatte operazioni verificano che tale utente sia il capo di tale gruppo.
 
 L'invito è un codice alfanumerico univoco formato da otto caratteri utilizzabile soltanto una volta. Le operazioni di creazione e validazione sono analoghe a quelli usati da lato utente, con l'unica differenza che se l'invito è scaduto viene eliminato.
+
+## STEP 3
+Implementazione dei servizi delle sessioni. Nulla di rilevante da documentare in quanto le funzioni CRUD sono analoghe a quelle già implementate. Tuttavia, l'unica novità è la funzione "complete" che permette al gestore del gruppo di contrassegnare come completata la sessione.
