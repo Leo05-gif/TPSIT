@@ -1,6 +1,6 @@
 # Circulus Librorum
 ## Sommario
-Applicazione per la gestione e l'organizzazione di club di lettura. Ogni utente può creare il proprio club, divenendone gestore. Egli condivide un token d'invito ad altri utenti. Il gestore stabilisce la lettura - definendo vari paramentri - e fissa il turno, ovvero la data entro cui bisogna leggere un certo numero di pagine / capitoli. L'utente ha la possibilità di poter esprimere il proprio pensiero pertinente al turno sotto forma di un commento. Inoltre egli conferma l'avvenuta lettura per quel turno. 
+Applicazione per la gestione e l'organizzazione di club di lettura. Ogni utente può creare il proprio club, divenendone gestore. Egli condivide un token d'invito ad altri utenti. Il gestore stabilisce la lettura - definendo vari paramentri - e fissa il turno, ovvero la data entro cui bisogna leggere un certo numero di pagine / capitoli. L'utente conferma l'avvenuta lettura per quel turno. 
 
 # Tabella di marcia
 ## Progettazione
