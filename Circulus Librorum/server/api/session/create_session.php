@@ -42,7 +42,6 @@ function create_session(): array {
             'success' => true,
             'message' => 'Session was created successfully',
         ];
-
     } catch (Exception $e) {
         throw new Exception($e);
     }

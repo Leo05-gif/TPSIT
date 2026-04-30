@@ -14,4 +14,9 @@ require_once ROOT . 'api/session/create_session.php';
 require_once ROOT . 'api/session/delete_session.php';
 require_once ROOT . 'api/session/get_sessions.php';
 require_once ROOT . 'api/session/complete_session.php';
+
+require_once ROOT . 'api/turn/create_turn.php';
+require_once ROOT . 'api/turn/delete_turn.php';
+require_once ROOT . 'api/turn/complete_turn.php';
+require_once ROOT . 'api/turn/get_turns.php';
 ?>

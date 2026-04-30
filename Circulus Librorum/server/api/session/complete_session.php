@@ -6,7 +6,7 @@ require_once $root . '/utils/handler.php';
 require_once $root . '/utils/database.php';
 require_once $root . '/utils/user_token.php';
 
-function complete_session() {
+function complete_session(): array {
     try {
         $data = get_content();
 
@@ -32,7 +32,16 @@ function complete_session() {
 
         $query = 'UPDATE sessions SET completed=(?) WHERE club_id=(?) AND id=(?)';
         $params = [$value, $club_id, $session_id];
-        execute($connection, $query, 'iii', $params);
+        $result = execute($connection, $query, 'iii', $params);
+
+        if ($result['affected_rows'] <= 0) {
+            throw new Exception('Couldnt complete session');
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Session was created successfully',
+        ];
     } catch (Exception $e) {
         throw new Exception($e);
     }
