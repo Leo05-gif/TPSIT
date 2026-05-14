@@ -47,3 +47,6 @@ L'invito è un codice alfanumerico univoco formato da otto caratteri utilizzabil
 
 ## STEP 3
 Implementazione dei servizi delle sessioni. Nulla di rilevante da documentare in quanto le funzioni CRUD sono analoghe a quelle già implementate. Tuttavia, l'unica novità è la funzione "complete" che permette al gestore del gruppo di contrassegnare come completata la sessione.
+
+## STEP 4
+Implementazione dei servizi dei turni. API analoga a quella delle sessioni.
