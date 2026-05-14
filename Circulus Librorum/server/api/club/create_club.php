@@ -29,7 +29,7 @@ function create_club(): array {
         $club_id = $insert_result['last_insert_id'];
 
         if ($club_id === null) {
-            throw new Exception('Couldnt create club');
+            throw new Exception('Cannot create club');
         }
 
         $query = 'INSERT INTO club_memberships (user_id, club_id, joined_in) VALUES (?, ?, NOW())';
@@ -38,10 +38,10 @@ function create_club(): array {
 
         return [
             'success' => true,
-            'message' => 'Successful club creation',
+            'message' => 'Successfull club creation',
         ];
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

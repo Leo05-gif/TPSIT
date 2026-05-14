@@ -14,7 +14,7 @@ function delete_club(): array {
             throw new Exception('Not enough input values');
         }
 
-        $usr_token = trim($data['token']);
+        $usr_token = trim($data['token']); 
         $club_id = trim($data['club_id']);
 
         $connection = connect();
@@ -25,16 +25,16 @@ function delete_club(): array {
         $deletion_result = execute($connection, $query, 'ii', $params);
 
         if ($deletion_result['affected_rows'] <= 0) {
-            throw new Exception('Couldnt delete club');
+            throw new Exception('Cannot delete club');
         }
 
         return [
             'success' => true,
-            'message' => 'Successful club deletion',
+            'message' => 'Successfull club deletion',
         ];
 
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

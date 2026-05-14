@@ -40,7 +40,7 @@ function delete_user(): array {
 
         $query = 'DELETE FROM users WHERE id=(?)';
         $params = [$user_id];
-        execute($connectio,$query, 'i', $params);
+        execute($connection,$query, 'i', $params);
 
         return [
             'success' => true,
@@ -48,7 +48,7 @@ function delete_user(): array {
         ];
 
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

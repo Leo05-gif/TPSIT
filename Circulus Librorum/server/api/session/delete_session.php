@@ -33,7 +33,6 @@ function delete_session(): array {
         $params = [$session_id];
         $deletion_result = execute($connection, $query, 'i', $params);
 
-
         if ($deletion_result['affected_rows'] <= 0) {
             throw new Exception('Couldnt delete session');
         }
@@ -43,9 +42,8 @@ function delete_session(): array {
             'message' => 'Successful session deletion',
         ];
 
-
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

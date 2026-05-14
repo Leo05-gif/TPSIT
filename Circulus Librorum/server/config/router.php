@@ -1,31 +1,30 @@
 <?php
 
 function get_routes(): array {
-    return $router = [
-            'user' => [
-                'login' => 'login',
-                'register' => 'register',
-                'delete_user' => 'delete'
-            ],
-            'club' => [
-                'create_club' => 'create_club',
-                'delete_club' => 'delete_club',
-                'create_invite' => 'create_invite' ,
-                'get_memberships' => 'get_memberships',
-                'join_club' => 'join_club'
-            ],
-            'session' => [
-                'create_session' => 'create_session',
-                'delete_session' => 'delete_session',
-                'get_sessions' => 'get_sessions',
-                'complete_session' => 'complete_session'
-            ],
-            'turn' => [
-                'create_turn' => 'create_turn',
-                'delete_turn' => 'delete_turn',
-                'get_turns' => 'get_turns',
-                'complete_turn' => 'complete_turn'
-            ]
-        ];
+    return [
+        'user' => [
+            'login'    => ['POST'   => 'login'],
+            'register' => ['POST'   => 'register'],
+            'delete'   => ['DELETE' => 'delete_user'],
+        ],
+        'club' => [
+            'create' => ['POST'   => 'create_club'],
+            'delete' => ['DELETE' => 'delete_club'],
+            'invite' => ['POST'   => 'create_invite'],
+            'get'    => ['GET'    => 'get_memberships'],
+            'join'   => ['POST'   => 'join_club'],
+        ],
+        'session' => [
+            'create'   => ['POST'   => 'create_session'],
+            'delete'   => ['DELETE' => 'delete_session'],
+            'get'     => ['GET'    => 'get_sessions'],
+            'complete' => ['PUT'    => 'complete_session'],
+        ],
+        'turn' => [
+            'create'   => ['POST'   => 'create_turn'],
+            'delete'   => ['DELETE' => 'delete_turn'],
+            'get'     => ['GET'    => 'get_turns'],
+            'complete' => ['PUT'    => 'complete_turn'],
+        ],
+    ];
 }
-?>

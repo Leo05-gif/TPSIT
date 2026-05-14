@@ -1,6 +1,6 @@
 <?php
 function check_param(&$param): bool {
-    if (strlen($param) < 8 && is_string($param)) {
+    if (is_string($param) && strlen($param) < 4) {
         throw new Exception('Wrong input');
     }
     return true;

@@ -33,7 +33,7 @@ function join_club(): array {
         $params = [$usr_id, $club_id];
         execute($connection, $query, 'ii', $params);
 
-        $query = 'DELETE FROM club_invites WHERE token=(?)';
+        $query = 'DELETE FROM club_invites WHERE invite=(?)';
         $params = [$invite];
         execute($connection, $query, 's', $params);
 
@@ -43,7 +43,7 @@ function join_club(): array {
         ];
 
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

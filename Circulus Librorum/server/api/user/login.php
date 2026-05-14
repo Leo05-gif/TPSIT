@@ -33,7 +33,7 @@ function login(): array {
         }
 
         if (!password_verify($pwd, $result['data'][0]['password'])) {
-            throw new Exception('Failed to verify password. Please try again');
+            throw new Exception('Failed to verify password');
         }
 
         $token = create_user_token($connection, $result['data'][0]['id']);
@@ -45,7 +45,7 @@ function login(): array {
         ];
 
     } catch (Exception $e) {
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
     }
 }
 ?>

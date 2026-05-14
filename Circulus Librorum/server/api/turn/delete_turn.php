@@ -43,7 +43,7 @@ function delete_turn(): array {
             'message' => 'Successful turn deletion',
         ];
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

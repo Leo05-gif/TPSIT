@@ -32,11 +32,11 @@ function create_invite(): array {
     
         return [
             'success' => true,
-            'message' => 'Successful invite creation',
+            'message' => 'Successfull invite creation',
             'invite' => $invite,
         ];
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

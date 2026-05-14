@@ -16,7 +16,7 @@ function connect(): mysqli {
         error_log('Database connection failed: ' . $e->getMessage() . 
                     ' | Code: ' . $e->getCode());
 
-        throw new Exception('Unable to connect to the database. Please try again later.');
+        throw new Exception('Unable to connect to the database');
     }  
 }
 
@@ -62,7 +62,7 @@ function execute(&$connection, string $query, string $types = '', array $params 
                 ' | Query: ' . $query . 
                 ' | Params: ' . json_encode($params));
 
-        throw new Exception('Database operation failed. Please try again later.');
+        throw new Exception('Database operation failed');
     }
 }
 

@@ -1,12 +1,14 @@
 <?php
 
+$root = $_SERVER['DOCUMENT_ROOT'];
+
 require_once $root . '/utils/handler.php';
 require_once $root . '/utils/database.php';
 require_once $root . '/utils/user_token.php';
 
 function get_turns(): array {
     try {
-        $data = get_content();
+        $data = $_GET;
 
         if (!isset($data['token'], $data['session_id'])) {
             throw new Exception('Not enough input values');
@@ -28,11 +30,11 @@ function get_turns(): array {
         
         return [
             'success' => true,
-            'data' => $result['data'][0],
+            'data' => $result['data'],
         ];
 
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

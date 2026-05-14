@@ -21,7 +21,7 @@ function create_club_invite(&$connection, &$user_id, &$club_id): string {
 
 function validate_club_invite(&$connection, &$token): int {
     try {
-        $query = 'SELECT * FROM club_invites WHERE inviote=(?)';
+        $query = 'SELECT * FROM club_invites WHERE invite=(?)';
         $params = [$token];
 
         $result = execute($connection, $query, 's', $params);
@@ -40,11 +40,11 @@ function validate_club_invite(&$connection, &$token): int {
             $query = 'DELETE FROM club_invites WHERE invite=(?)';
             $params = [$token];
             execute($connection, $query, 's', $params);
-            throw new Exception('Expired token');
+            throw new Exception('Expired invite');
         }
         return $token_data['club_id'];
     } catch (Exception $e) {
-        throw new Exception('Failed to validate invite token. Please try again later.');
+        throw new Exception('Failed to validate invite token');
     }
 }
 

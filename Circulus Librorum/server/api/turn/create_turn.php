@@ -1,5 +1,7 @@
 <?php
 
+$root = $_SERVER['DOCUMENT_ROOT'];
+
 require_once $root . '/utils/handler.php';
 require_once $root . '/utils/database.php';
 require_once $root . '/utils/user_token.php';
@@ -37,7 +39,7 @@ function create_turn(): array {
         $result = execute($connection, $query, 'iss', $params);
 
         if ($result['affected_rows'] <= 0) {
-            throw new Exception('Something went wrong!');
+            throw new Exception('Something went wrong');
         }
 
         return [
@@ -46,7 +48,7 @@ function create_turn(): array {
         ];
         
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

@@ -43,7 +43,7 @@ function create_session(): array {
             'message' => 'Session was created successfully',
         ];
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 } 
 ?>

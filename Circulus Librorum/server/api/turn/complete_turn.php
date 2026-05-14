@@ -1,5 +1,7 @@
 <?php
 
+$root = $_SERVER['DOCUMENT_ROOT'];
+
 require_once $root . '/utils/handler.php';
 require_once $root . '/utils/database.php';
 require_once $root . '/utils/user_token.php';
@@ -41,7 +43,7 @@ function complete_turn(): array {
             'message' => 'action done successfully'
         ];
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

@@ -48,7 +48,7 @@ function register(): array {
         ];
 
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>

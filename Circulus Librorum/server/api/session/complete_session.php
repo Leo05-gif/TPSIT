@@ -21,7 +21,7 @@ function complete_session(): array {
 
         $connection = connect();
         $usr_id = validate_user_token($connection, $token);
-        
+
         $query = 'SELECT * FROM clubs WHERE id=(?) AND owner_id=(?)';
         $params = [$club_id, $usr_id];
         $result = execute($connection, $query, 'ii', $params);
@@ -40,10 +40,10 @@ function complete_session(): array {
 
         return [
             'success' => true,
-            'message' => 'Session was created successfully',
+            'message' => 'Session was completed successfully',
         ];
     } catch (Exception $e) {
-        throw new Exception($e);
+        throw new Exception($e->getMessage());
     }
 }
 ?>
