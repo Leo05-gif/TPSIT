@@ -57,4 +57,4 @@ Incominciata l'implementazione del client. Siffatto punto riguarda la gestione d
 ## STEP 6
 Implementazione del database interno, inclusi i modelli e le funzioni di query. I modelli sono simili a quelli costruiti in classe, l'unica particolarità si trova nell'utlizzo della funzione `toIso8601String()` per convertire una stringa in una rappresentazione estesa ISO-8601 a piena precisione.
 
-La classe `LocalDatabase` contiene tutte le query e, in particolare, la funzione `syncClubData()` che si occupa di sincronizzare i dati in memoria con quelli salvati nel database.
+La classe `LocalDatabase` contiene tutte le query e, in particolare, la funzione `syncClubData()` che si occupa di sincronizzare i dati in memoria con quelli salvati nel database. Il parametro *conflictAlgorithm* viene settato in *ConflictAlgorithm.replace*, che vuol dire: "in caso di conflitto cancella la vecchia riga e inserisci quella nuova". 
