@@ -53,3 +53,8 @@ Implementazione dei servizi dei turni. API analoga a quella delle sessioni.
 
 ## STEP 5
 Incominciata l'implementazione del client. Siffatto punto riguarda la gestione delle richieste, ossia ho scritto le classi che contengono le funzioni che si occupano di effettuare le richieste (utilizzando il metodo HTTP corretto, come richiesto dalla consegna). Le funzioni in sé non fanno nulla di complesso, si limitano a prendere il dato json e ritornarlo così com'è.
+
+## STEP 6
+Implementazione del database interno, inclusi i modelli e le funzioni di query. I modelli sono simili a quelli costruiti in classe, l'unica particolarità si trova nell'utlizzo della funzione `toIso8601String()` per convertire una stringa in una rappresentazione estesa ISO-8601 a piena precisione.
+
+La classe `LocalDatabase` contiene tutte le query e, in particolare, la funzione `syncClubData()` che si occupa di sincronizzare i dati in memoria con quelli salvati nel database.
