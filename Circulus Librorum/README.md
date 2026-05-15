@@ -50,3 +50,6 @@ Implementazione dei servizi delle sessioni. Nulla di rilevante da documentare in
 
 ## STEP 4
 Implementazione dei servizi dei turni. API analoga a quella delle sessioni.
+
+## STEP 5
+Incominciata l'implementazione del client. Siffatto punto riguarda la gestione delle richieste, ossia ho scritto le classi che contengono le funzioni che si occupano di effettuare le richieste (utilizzando il metodo HTTP corretto, come richiesto dalla consegna). Le funzioni in sé non fanno nulla di complesso, si limitano a prendere il dato json e ritornarlo così com'è.
