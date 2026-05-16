@@ -18,7 +18,18 @@ function get_memberships(): array {
         $connection = connect();
         $usr_id = validate_user_token($connection, $token);
 
-        $query = 'SELECT * FROM club_memberships WHERE user_id=(?)';
+        $query = '
+            SELECT
+                c.id,
+                c.owner_id,
+                c.name,
+                c.description,
+                c.created_at,
+                cm.joined_in
+            FROM club_memberships cm
+            JOIN clubs c ON c.id = cm.club_id
+            WHERE cm.user_id = (?)
+        ';
         $param = [$usr_id];
         $result = execute($connection, $query, 'i', $param);
 

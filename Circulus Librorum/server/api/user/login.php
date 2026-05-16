@@ -8,7 +8,6 @@ require_once $root . '/utils/user_token.php';
 
 function login(): array {
     try {
-
         $data = get_content();
 
         if (!isset($data['username'], $data['password'])) {
@@ -25,27 +24,39 @@ function login(): array {
 
         $query = 'SELECT * FROM users WHERE username=(?)';
         $params = [$usr];
-
         $result = execute($connection, $query, 's', $params);
 
         if (empty($result['data']) || count($result['data']) === 0) {
             throw new Exception('Failed to login');
         }
 
-        if (!password_verify($pwd, $result['data'][0]['password'])) {
+        $user = $result['data'][0];
+
+        if (!password_verify($pwd, $user['password'])) {
             throw new Exception('Failed to verify password');
         }
 
-        $token = create_user_token($connection, $result['data'][0]['id']);
+        $token = create_user_token($connection, $user['id']);
+
+        $token_query = 'SELECT expires_at FROM user_tokens WHERE id=(?)';
+        $token_result = execute($connection, $token_query, 'i', [$user['id']]);
+        $expires_at = $token_result['data'][0]['expires_at'];
 
         return [
-            'success' => true,
-            'message' => 'Successful login',
-            'token' => $token,
+            'success'    => true,
+            'message'    => 'Successful login',
+            'token'      => $token,
+            'expires_at' => $expires_at,
+            'user'       => [
+                'id'         => $user['id'],
+                'username'   => $user['username'],
+                'password'   => $user['password'],
+                'created_at' => $user['created_at'],
+            ],
         ];
 
     } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        throw new Exception($e->getMessage());
     }
 }
 ?>

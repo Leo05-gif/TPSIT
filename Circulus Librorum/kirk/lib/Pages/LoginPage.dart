@@ -14,10 +14,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey      = GlobalKey<FormState>();
   final _usernameCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
-  bool _loading = false;
+  bool _loading       = false;
 
   @override
   void dispose() {
@@ -58,21 +58,23 @@ class _LoginPageState extends State<LoginPage> {
         return;
       }
 
-      final db = LocalDatabase();
+      final db    = LocalDatabase();
+      final user  = UserModel.fromMap(response['user']);
+      final token = UserTokenModel.fromMap({
+        'id':         response['user']['id'],
+        'token':      response['token'],
+        'expires_at': response['expires_at'],
+      });
 
-      await db.upsertUser(UserModel.fromMap(response['user']));
-      await db.upsertUserToken(
-        UserTokenModel.fromMap({
-          'id': response['user']['id'],
-          'token': response['token'],
-          'expires_at': response['expires_at'],
-        }),
-      );
+      await db.upsertUser(user);
+      await db.upsertUserToken(token);
 
       if (mounted) {
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (_) => const MainPage()));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => MainPage(user: user, token: token),
+          ),
+        );
       }
     } catch (e) {
       _showError(e.toString());
@@ -101,18 +103,16 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: _usernameCtrl,
                   decoration: const InputDecoration(labelText: 'Username'),
-                  validator: (v) => (v == null || v.trim().length < 4)
-                      ? 'At least 4 characters'
-                      : null,
+                  validator: (v) =>
+                      (v == null || v.trim().length < 4) ? 'At least 4 characters' : null,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _passwordCtrl,
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
-                  validator: (v) => (v == null || v.length < 4)
-                      ? 'At least 4 characters'
-                      : null,
+                  validator: (v) =>
+                      (v == null || v.length < 4) ? 'At least 4 characters' : null,
                 ),
                 const SizedBox(height: 32),
                 _loading
