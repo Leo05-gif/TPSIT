@@ -1,87 +1,29 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import 'ApiClient.dart';
 
 class SessionRequests {
-  Future<http.Response> create(
-    String token,
-    int clubId,
-    String bookTitle,
-    String description,
-  ) async {
-    try {
-      var url = Uri.parse('http://10.34.157.239:8000/service/session/create');
-      var response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "token": token,
-          "club_id": clubId,
-          "book_title": bookTitle,
-          "description": description,
-        }),
-      );
-      return response;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+  final _h = {"Content-Type": "application/json"};
+  String get _base => ApiClient.baseUrl;
 
-  Future<http.Response> delete(String token, int clubId, int sessionId) async {
-    try {
-      var url = Uri.parse('http://10.34.157.239:8000/service/session/delete');
-      var response = await http.delete(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "token": token,
-          "club_id": clubId,
-          "session_id": sessionId,
-        }),
-      );
-      return response;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+  Future<http.Response> create(String token, int clubId, String bookTitle, String description) =>
+      ApiClient.post(Uri.parse('$_base/service/session/create'),
+          headers: _h,
+          body: jsonEncode({"token": token, "club_id": clubId, "book_title": bookTitle, "description": description}));
 
-  Future<http.Response> get(String token, int clubId) async {
-    try {
-      var url = Uri.parse('http://10.34.157.239:8000/service/session/get')
-          .replace(
-            queryParameters: {"token": token, "club_id": clubId.toString()},
-          );
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-      return response;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+  Future<http.Response> delete(String token, int clubId, int sessionId) =>
+      ApiClient.delete(Uri.parse('$_base/service/session/delete'),
+          headers: _h,
+          body: jsonEncode({"token": token, "club_id": clubId, "session_id": sessionId}));
 
-  Future<http.Response> complete(
-    String token,
-    int clubId,
-    int sessionId,
-    int value,
-  ) async {
-    try {
-      var url = Uri.parse('http://10.34.157.239:8000/service/session/complete');
-      var response = await http.put(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "token": token,
-          "club_id": clubId,
-          "session_id": sessionId,
-          "value": value,
-        }),
-      );
-      return response;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+  Future<http.Response> get(String token, int clubId) =>
+      ApiClient.get(
+          Uri.parse('$_base/service/session/get')
+              .replace(queryParameters: {"token": token, "club_id": clubId.toString()}),
+          headers: _h);
+
+  Future<http.Response> complete(String token, int clubId, int sessionId, int value) =>
+      ApiClient.put(Uri.parse('$_base/service/session/complete'),
+          headers: _h,
+          body: jsonEncode({"token": token, "club_id": clubId, "session_id": sessionId, "value": value}));
 }

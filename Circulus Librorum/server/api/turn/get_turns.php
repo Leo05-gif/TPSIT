@@ -14,23 +14,19 @@ function get_turns(): array {
             throw new Exception('Not enough input values');
         }
 
-        $token = trim($data['token']);
+        $token      = trim($data['token']);
         $session_id = trim($data['session_id']);
 
         $connection = connect();
         validate_user_token($connection, $token);
 
-        $query = 'SELECT * FROM turns WHERE session_id=(?)';
+        $query  = 'SELECT * FROM turns WHERE session_id=(?)';
         $params = [$session_id];
         $result = execute($connection, $query, 'i', $params);
 
-        if ($result['count'] <= 0) {
-            throw new Exception('Couldnt find turns');
-        }
-        
         return [
             'success' => true,
-            'data' => $result['data'],
+            'data'    => $result['data'],
         ];
 
     } catch (Exception $e) {

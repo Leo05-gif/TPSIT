@@ -5,6 +5,7 @@ import '../Models/LocalDatabase.dart';
 import '../Requests/UserRequests.dart';
 import '../Pages/RegisterPage.dart';
 import '../Pages/MainPage.dart';
+import '../Services/SyncService.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -68,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
 
       await db.upsertUser(user);
       await db.upsertUserToken(token);
+      SyncService().start(token.token);
 
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -95,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  'Librorum',
+                  'Circulus Librorum',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),

@@ -30,16 +30,12 @@ function get_memberships(): array {
             JOIN clubs c ON c.id = cm.club_id
             WHERE cm.user_id = (?)
         ';
-        $param = [$usr_id];
+        $param  = [$usr_id];
         $result = execute($connection, $query, 'i', $param);
-
-        if ($result['count'] <= 0) {
-            throw new Exception('Couldnt find memberships');
-        }
 
         return [
             'success' => true,
-            'data' => $result['data'],
+            'data'    => $result['data'],
         ];
     } catch (Exception $e) {
         throw new Exception($e->getMessage());

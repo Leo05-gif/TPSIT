@@ -4,7 +4,6 @@ import 'dart:io';
 import '../Models/LocalDatabase.dart';
 import '../Requests/TurnRequests.dart';
 import '../Requests/SessionRequests.dart';
-import '../Requests/ClubRequests.dart';
 
 class SyncService {
   static final SyncService _instance = SyncService._internal();

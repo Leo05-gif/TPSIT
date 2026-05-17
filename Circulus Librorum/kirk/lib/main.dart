@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Pages/LoginPage.dart';
-
+import 'package:librorumclient/Pages/SplashPage.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -9,7 +8,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Circulus Librorum',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: LoginPage(),
+      home: SplashPage(),
     );
   }
 }

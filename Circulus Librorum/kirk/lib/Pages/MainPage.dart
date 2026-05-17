@@ -75,11 +75,14 @@ class _MainPageState extends State<MainPage> {
         title: const Text('My Clubs'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => OptionsPage(user: widget.user, token: widget.token),
-              ),
-            ),
+            onPressed: () async {
+              final joined = await Navigator.of(context).push<bool>(
+                MaterialPageRoute(
+                  builder: (_) => OptionsPage(user: widget.user, token: widget.token),
+                ),
+              );
+              if (joined == true) _loadClubs();
+            },
             child: Text(widget.user.username),
           ),
         ],

@@ -7,6 +7,7 @@ import '../Models/UserTokenModel.dart';
 import '../Models/LocalDatabase.dart';
 import '../Requests/ClubRequests.dart';
 import '../Requests/SessionRequests.dart';
+import '../Services/SyncService.dart';
 import '../Pages/SessionPage.dart';
 
 class ClubPage extends StatefulWidget {
@@ -48,6 +49,8 @@ class _ClubPageState extends State<ClubPage> {
         final sessions = raw.map((s) => SessionModel.fromMap(s)).toList();
         for (final s in sessions) await db.upsertSession(s);
         setState(() => _sessions = sessions);
+      } else if (body['data'] == null) {
+        setState(() => _sessions = []);
       } else {
         await _loadFromLocal();
       }
@@ -99,18 +102,19 @@ class _ClubPageState extends State<ClubPage> {
     );
     if (confirmed != true) return;
 
-    try {
-      final res  = await SessionRequests().delete(
-          widget.token.token, widget.club.id, session.id);
-      final body = jsonDecode(res.body);
-      if (body['success'] == true) {
-        await LocalDatabase().deleteSession(session.id);
-        _loadSessions();
-      } else {
-        _showError(body['message'] ?? 'Could not delete session');
-      }
-    } catch (e) {
-      _showError(e.toString());
+    final success = await SyncService().tryOrEnqueue(
+      operation: 'delete_session',
+      payload: {'club_id': widget.club.id, 'session_id': session.id},
+      networkCall: () async {
+        final res  = await SessionRequests().delete(widget.token.token, widget.club.id, session.id);
+        return jsonDecode(res.body)['success'] == true;
+      },
+      localUpdate: () => LocalDatabase().deleteSession(session.id),
+    );
+    if (success) {
+      _loadSessions();
+    } else {
+      _showError('Could not delete session');
     }
   }
 
@@ -202,14 +206,14 @@ class _ClubPageState extends State<ClubPage> {
                             if (body['success'] == true) {
                               if (ctx.mounted) Navigator.of(ctx).pop();
                               _loadSessions();
+                              return;
                             } else {
                               _showError(body['message'] ?? 'Could not create session');
                             }
                           } catch (e) {
                             _showError(e.toString());
-                          } finally {
-                            setSheetState(() => loading = false);
                           }
+                          if (ctx.mounted) setSheetState(() => loading = false);
                         },
                         child: const Text('Create'),
                       ),
